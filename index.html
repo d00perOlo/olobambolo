@@ -56,6 +56,9 @@
     body.mode-intro *{ cursor:none!important; }
     body.mode-terminal{ cursor:crosshair; }
 
+    /* Utility */
+    .mobile-only { display: none; }
+
     /* =========================
        INTRO LAYER
     ========================== */
@@ -97,6 +100,7 @@
       position:fixed;inset:0;
       display:flex;justify-content:center;align-items:center;
       z-index:2;padding:2rem;
+      padding-bottom:22vh; /* Shift content up */
     }
     .hero{text-align:center;user-select:none}
 
@@ -387,7 +391,7 @@
       background:var(--t-crtA);
       background-size:100% 4px, 3px 100%;
       pointer-events:none;
-      z-index:9998;
+      z-index:9999;
       opacity:.9;
     }
     .terminal-overlay::after{
@@ -605,6 +609,7 @@
       user-select:none;
     }
     .matrix .active{ color:var(--t-g); text-shadow:var(--t-gGlow); }
+    .matrix .highlight{ color:#ffffff; text-shadow:0 0 10px rgba(255,255,255,0.9); }
     .scannerLine{
       position:absolute; left:0; top:0;
       width:100%; height:2px;
@@ -671,20 +676,102 @@
       font-size:10px;
     }
 
-    @media (max-width:640px){
-      .stats-container{left:1rem;bottom:1rem;min-width:220px}
-      .cursor-hint{font-size:.75rem;white-space:normal}
-      .nav-sidebar{right:1rem}
-      :root{ --label-gap: 38px; }
-      .nav-ghost{ right: 18px; }
-    }
-
     @media (max-width: 1100px){
       body.mode-terminal{ overflow:auto; }
       .t-app{ height:auto; }
       .t-grid{ grid-template-columns:1fr; grid-template-rows:auto; }
       .t-panel{ min-height:520px; }
       .t-panel .content{ overflow:visible; }
+    }
+
+    @media (max-width:640px){
+      /* -- Global & Intro -- */
+      .stats-container{
+        left:10px; bottom:10px;
+        min-width:auto;
+        width: calc(100% - 60px); /* Leave room for Nav */
+        padding: 12px;
+        font-size: 0.7rem; /* Smaller font */
+        background: rgba(0,0,0,0.92); /* More opaque */
+        z-index: 50; /* Ensure on top */
+        backdrop-filter: blur(10px);
+      }
+      .stats-container .spacer-top { margin-top: 0.25rem; }
+      
+      .cursor-hint{
+        bottom: auto; top: 72%; /* Move slightly above */
+        font-size:.7rem;
+        white-space:normal;
+        width: 100%;
+        padding: 0 30px;
+        pointer-events: none;
+        opacity: 0.8;
+      }
+      
+      .intro { padding: 1rem; padding-bottom: 35vh; }
+      .hero-title { font-size: clamp(1.8rem, 10vw, 3rem); }
+      .subline { font-size: 0.8rem; margin-top: 1rem; }
+      .mobile-only { display: inline; }
+
+      .nav-sidebar{ right: 5px; gap: 1.2rem; }
+      .nav-item { width: 44px; height: 44px; } /* Larger touch targets */
+      .nav-ghost { display: none; } /* Simplify */
+      :root{ --label-gap: 40px; }
+
+      /* -- Terminal -- */
+      body.mode-terminal { overflow-y: auto; } /* Allow body scroll */
+      #terminalScreen { position: absolute; height: auto; min-height: 100%; overflow-y: auto; } /* Allow scrolling */
+      
+      .t-app { 
+        height: auto; 
+        min-height: 100%; 
+        display: flex; 
+        flex-direction: column; 
+        padding: 10px;
+        gap: 16px;
+      }
+
+      .t-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        min-height: auto;
+        padding: 10px;
+        gap: 10px;
+      }
+      .t-brand .title { font-size: 16px; flex-wrap: wrap; }
+      .t-brand .sub { display: none; } /* Too long for mobile */
+      .t-meta { 
+        text-align: left; 
+        margin-top: 8px; 
+        width: 100%;
+        border-top: 1px solid var(--t-gDim);
+        padding-top: 8px;
+      }
+      .t-pill { margin-left: 0; margin-right: 6px; margin-bottom: 4px; }
+
+      .t-grid { display: flex; flex-direction: column; gap: 16px; }
+      
+      .t-panel {
+        min-height: auto; 
+        height: auto;
+        padding-top: 36px; /* Space for title */
+      }
+      .t-panel .content { overflow: visible; height: auto; }
+      
+      /* Specific panel adjustments */
+      .matrixBox { height: 160px; }
+      .log { height: 140px; }
+      
+      /* Footer */
+      .t-footer { 
+        flex-direction: column-reverse; 
+        gap: 10px; 
+        align-items: center; 
+        text-align: center;
+        padding-bottom: 24px; /* Safe area */
+      }
+      .kbd { display: none; }
     }
   </style>
 <link rel="stylesheet" href="/index.css">
@@ -770,7 +857,7 @@
         <div class="hero-title">INTERACTIV</div>
         <div class="hero-title">OLO DASH</div>
         <div class="subline">
-          proj3ct syst3m paran<span class="olo-orange">0L0</span>mal activi
+          proj3ct syst3m<br class="mobile-only" /> paran<span class="olo-orange">0L0</span>mal activi
         </div>
       </div>
     </div>
@@ -1172,8 +1259,13 @@
         for(let j=0;j<60;j++){
           const r = Math.random();
           const ch = r>0.9 ? '█' : (r>0.7 ? '▒' : '░');
-          const active = Math.random()>0.98 ? 'active' : '';
-          line += `<span class="${active}">${ch}</span>`;
+          // Logic update
+          const rndState = Math.random();
+          let stateClass = '';
+          if(rndState > 0.985) stateClass = 'highlight';
+          else if(rndState > 0.94) stateClass = 'active';
+          
+          line += `<span class="${stateClass}">${ch}</span>`;
         }
         html += `<div>${line}</div>`;
       }
@@ -1190,7 +1282,7 @@
         b.style.background = 'var(--t-g)';
         b.style.opacity = '0.55';
         b.style.height = `${irnd(8,100)}%`;
-        b.style.transition = 'height 0.25s ease';
+        b.style.transition = 'height 0.8s ease';
         host.appendChild(b);
       }
     }
@@ -1239,7 +1331,7 @@
       const nb = document.getElementById('netBars');
       if(nb){
         Array.from(nb.children).forEach(b => {
-           if(Math.random()>0.6) b.style.height = irnd(5,100)+'%';
+           b.style.height = irnd(5,100)+'%';
         });
       }
       
@@ -1266,7 +1358,7 @@
       renderMatrix();
       buildNetBars();
 
-      tIntervals.push(setInterval(renderMatrix, 2000));
+      tIntervals.push(setInterval(renderMatrix, 1500));
       tIntervals.push(setInterval(()=>{
         setText('nowTime', nowPL());
         setText('omegaClock', `CZAS: ${nowPL()}`);
@@ -1274,7 +1366,7 @@
       }, 200));
 
       // Start Simulation
-      tIntervals.push(setInterval(simTick, 800));
+      tIntervals.push(setInterval(simTick, 1000));
     }
     function terminalStop(){
       tIntervals.forEach(clearInterval);
