@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>INTERACTIV OLO DASH</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;500&family=Fira+Code:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;500;700&family=Fira+Code:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -51,7 +51,7 @@
     }
 
     /* MODE SWITCH */
-    html,body{height:100%; background:var(--bg-color); color:var(--text-main); overflow:hidden;}
+    html,body{height:100%; background:var(--bg-color); color:var(--text-main); overflow:hidden; margin:0; padding:0;}
     body{font-family:'Inter',sans-serif;}
     body.mode-intro *{ cursor:none!important; }
     body.mode-terminal{ cursor:crosshair; }
@@ -95,22 +95,28 @@
       z-index:1;
     }
 
-    /* HERO */
+    /* HERO - REPOSITIONED TO TOP */
     .intro{
       position:fixed;inset:0;
-      display:flex;justify-content:center;align-items:center;
-      z-index:2;padding:2rem;
-      padding-bottom:22vh; /* Shift content up */
+      display:flex;
+      justify-content:center;
+      align-items:flex-start; /* Przeniesienie na górę */
+      z-index:2;
+      padding:2rem;
     }
-    .hero{text-align:center;user-select:none}
+    .hero{
+      text-align:center;
+      user-select:none;
+      margin-top: 8vh; /* Odstęp od górnej krawędzi, aby być nad kropkami */
+    }
 
     .hero-title{
-      font-family:'Syncopate',sans-serif;
-      font-size:clamp(2.2rem,8vw,6rem);
+      font-family:'JetBrains Mono', monospace;
+      font-size:clamp(2.5rem, 10vw, 6rem);
       text-transform:uppercase;
       font-weight:700;
-      letter-spacing:-2px;
-      line-height:.9;
+      letter-spacing:-1px;
+      line-height:1.1;
       background:linear-gradient(90deg,
         #ffffff 0%,
         #c9ffff 22%,
@@ -124,36 +130,77 @@
       filter:none;
     }
 
-    .subline{
-      margin-top:2rem;
-      letter-spacing:5px;
-      font-weight:300;
-      color:#666;
-      font-size:.95rem;
-      font-family:'Inter',sans-serif;
-    }
-    .subline .olo-orange{
-      color: var(--olo-orange);
-      text-shadow: 0 0 10px rgba(255,138,31,0.20);
+    .hero-internal {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #999;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-top: 1.2rem;
+      font-weight: 500;
     }
 
-    /* BOTTOM TEXT */
+    /* ACTIVE MODULES SECTION */
+    .modules-section {
+      margin-top: 3.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: left;
+      display: inline-block;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+    }
+    .modules-title {
+      color: #777;
+      margin-bottom: 0.8rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .module-item {
+      display: block;
+      margin-bottom: 6px;
+      white-space: pre;
+      color: #ffffff;
+    }
+    .status-online { color: var(--t-g); text-shadow: var(--t-gGlow); }
+    .status-standby { color: #ffcc00; text-shadow: 0 0 8px rgba(255, 204, 0, 0.4); }
+    .status-locked { color: var(--t-r); text-shadow: var(--t-rGlow); }
+
+    /* LOG TICKER (ABOVE FOOTER) */
+    .log-ticker {
+      position: fixed;
+      bottom: 1.6rem; /* Zbliżone do ostrzeżenia na samym dole */
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: rgba(0, 255, 65, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      z-index: 2;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      white-space: nowrap;
+    }
+
+    /* BOTTOM TEXT (CURSOR HINT / FOOTER) */
     .cursor-hint{
       position:fixed;
-      bottom:3rem;left:50%;
+      bottom: 0.5rem; /* Na samym dole */
+      left:50%;
       transform:translateX(-50%);
       font-family:'JetBrains Mono',monospace;
-      font-size:.85rem;
-      opacity:.55;
       z-index:2;
       user-select:none;
-      white-space:nowrap;
       text-align:center;
       padding:0 1rem;
-    }
-    .gensyn-red{
-      color:var(--alert-red);
-      text-shadow:0 0 6px rgba(255,0,60,.45), 0 0 14px rgba(255,0,60,.35), 0 0 26px rgba(255,0,60,.25);
+      color: var(--alert-red);
+      font-size: 0.62rem;
+      opacity: 0.5;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     /* HUD */
@@ -176,13 +223,8 @@
     .stats-container .value{color:var(--accent-primary)}
     .stats-container .value.dim{color:#999}
     .stats-container .spacer-top{margin-top:.35rem}
-    .email-value{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-    .gmail-icon{
-      width:14px;height:14px;display:inline-block;transform:translateY(1px);
-      filter:drop-shadow(0 0 6px rgba(255,255,255,0.10));
-    }
 
-    /* NAV */
+    /* NAV - CENTERED AS BEFORE */
     .nav-sidebar{
       position:fixed;
       right:2rem;
@@ -208,13 +250,7 @@
       position:relative;
       width: var(--dot-hit);
       height: var(--dot-hit);
-      overflow: visible;
-    }
-    .nav-hit{
-      position:absolute;
-      inset:0;
-      border-radius:999px;
-      background:transparent;
+      cursor: pointer;
     }
     .nav-dot{
       position:absolute;
@@ -226,80 +262,21 @@
       border-radius:50%;
       background:rgba(255,255,255,0.18);
       z-index: 20;
-      transition: transform .18s ease, filter .18s ease;
+      transition: transform .18s ease, background .18s ease;
     }
-    .nav-dot::before{
-      content:"";
-      position:absolute;
-      left:50%;top:50%;
-      transform:translate(-50%,-50%);
-      width:18px;height:18px;
-      border-radius:999px;
-      background:rgba(255,255,255,0.06);
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
-      opacity: 0;
-      transition: opacity .15s ease;
-    }
-    .nav-dot::after{
-      content:"";
-      position:absolute;
-      left:50%;top:50%;
-      transform:translate(-50%,-50%);
-      width:26px;height:26px;
-      border-radius:999px;
-      background:
-        radial-gradient(circle at 62% 62%, var(--alert-red) 0 4px, transparent 5px),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.92) 0 8px, transparent 9px),
-        radial-gradient(circle at 50% 50%, rgba(0,242,255,0.0) 0 10px, rgba(0,242,255,0.0) 10px),
-        radial-gradient(circle at 50% 50%, rgba(0,242,255,0.95) 0 13px, transparent 14px);
-      opacity: 0;
-      filter: drop-shadow(0 0 10px rgba(0,242,255,0.22));
-      transition: opacity .15s ease, transform .18s ease, filter .18s ease;
+    .nav-item:hover .nav-dot {
+      background: var(--accent-primary);
+      transform: translateY(-50%) scale(1.3);
+      box-shadow: 0 0 10px var(--accent-primary);
     }
 
-    .nav-item:hover .nav-dot{
-      transform: translateY(-50%) scale(1.15);
-      filter: drop-shadow(0 0 12px rgba(0,242,255,0.20));
-    }
-    .nav-item:hover .nav-dot::before{ opacity: 1; }
-    .nav-item:hover .nav-dot::after{
-      opacity: 1;
-      transform: translate(-50%,-50%) scale(1.04);
-      filter: drop-shadow(0 0 14px rgba(0,242,255,0.32));
-    }
-
-    /* Ghost label */
-    .nav-ghost{
-      position:absolute;
-      right: 22px;
-      top:50%;
-      transform:translateY(-50%);
-      font-family:'JetBrains Mono',monospace;
-      font-size:.72rem;
-      letter-spacing:1px;
-      color:#cfcfcf;
-      opacity:.07;
-      padding:.30rem .48rem;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.05);
-      background:rgba(0,0,0,0.10);
-      backdrop-filter:blur(6px);
-      white-space:nowrap;
-      pointer-events:none;
-      transition: opacity .12s ease;
-    }
-    .nav-item.is-gensyn.is-entering .nav-ghost,
-    .nav-item.is-gensyn:hover .nav-ghost{ opacity: 0; }
-
-    /* Active label (type reveal) */
-    .nav-label{
+    .nav-label {
       position:absolute;
       right: var(--label-gap);
       top:50%;
       transform:translateY(-50%);
       font-family:'JetBrains Mono',monospace;
       font-size:.72rem;
-      letter-spacing:1px;
       color:#e6e6e6;
       padding:.38rem .60rem;
       border-radius:var(--label-radius);
@@ -308,30 +285,14 @@
       backdrop-filter:blur(8px);
       white-space:nowrap;
       pointer-events:none;
-      z-index: 10;
-
       opacity:0;
-      clip-path: inset(0 100% 0 0);
-      will-change: clip-path, opacity;
+      transition: opacity 0.2s ease;
     }
-    .nav-item.is-entering .nav-label{
-      opacity:1;
-      animation: typeIn var(--type-ms) steps(var(--steps,12), end) forwards;
-    }
-    .nav-item.is-leaving .nav-label{
-      opacity:1;
-      animation: typeOut var(--type-ms) steps(var(--steps,12), end) forwards;
-    }
-    @keyframes typeIn{
-      from{ clip-path: inset(0 100% 0 0); }
-      to  { clip-path: inset(0 0    0 0); }
-    }
-    @keyframes typeOut{
-      from{ clip-path: inset(0 0    0 0); }
-      to  { clip-path: inset(0 0    0 100%); }
+    .nav-item:hover .nav-label {
+      opacity: 1;
     }
 
-    /* CURSOR intro */
+    /* CURSOR */
     #cursor-ring{
       position:fixed;top:0;left:0;
       width:var(--cursor-ring);height:var(--cursor-ring);
@@ -342,7 +303,6 @@
       transform:translate(-50%,-50%);
       box-shadow: 0 0 14px rgba(0,242,255,0.12);
       opacity:1;
-      transition: opacity .25s ease;
     }
     #cursor-dot{
       position:fixed;top:0;left:0;
@@ -353,38 +313,25 @@
       z-index:10000;
       transform:translate(-50%,-50%);
       mix-blend-mode:difference;
-      box-shadow: 0 0 10px rgba(255,255,255,0.08);
-      opacity:1;
-      transition: opacity .25s ease;
     }
     body.mode-terminal #cursor-ring,
-    body.mode-terminal #cursor-dot{
-      opacity:0;
-      pointer-events:none;
-    }
+    body.mode-terminal #cursor-dot{ opacity:0; }
 
     /* =========================
-       TERMINAL LAYER (FULLSCREEN)
+       TERMINAL LAYER
     ========================== */
     #terminalScreen{
       position:fixed; inset:0;
       z-index:20;
       opacity:0;
-      transform: translateY(12px) scale(0.99);
-      filter: blur(10px);
       pointer-events:none;
-      transition: opacity .55s ease, transform .65s cubic-bezier(.2,.9,.2,1), filter .55s ease;
-      will-change: opacity, transform, filter;
       background:var(--t-bg);
+      transition: opacity .4s ease;
     }
     body.mode-terminal #terminalScreen{
       opacity:1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
       pointer-events:auto;
     }
-
-    /* terminal overlay */
     .terminal-overlay::before{
       content:"";
       position:fixed; inset:0;
@@ -392,1059 +339,512 @@
       background-size:100% 4px, 3px 100%;
       pointer-events:none;
       z-index:9999;
-      opacity:.9;
-    }
-    .terminal-overlay::after{
-      content:"";
-      position:fixed; inset:0;
-      background:rgba(18,16,16,.12);
-      pointer-events:none;
-      z-index:9999;
-      animation:t_flicker .15s infinite;
-    }
-    @keyframes t_flicker{
-      0%{opacity:.25} 5%{opacity:.35} 10%{opacity:.22} 15%{opacity:.9}
-      20%{opacity:.18} 25%{opacity:.84} 30%{opacity:.66} 40%{opacity:.26}
-      50%{opacity:.96} 60%{opacity:.2} 70%{opacity:.53} 80%{opacity:.71}
-      100%{opacity:.24}
+      opacity:.4;
     }
 
-    /* terminal layout (scoped) */
     .t-app{
       height:100%;
-      padding:16px;
-      display:grid;
-      grid-template-rows:auto 1fr auto;
-      gap:12px;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:15px;
       color:var(--t-g);
       font-family:'Fira Code', monospace;
-      text-transform:uppercase;
-      position:relative;
-      transform: translate3d(0,0,0);
-      will-change: transform;
     }
-
     .t-topbar{
-      border:2px solid var(--t-gDim);
-      background:rgba(0,59,17,.06);
-      padding:12px 14px;
+      border:1px solid var(--t-gDim);
+      padding:15px;
       display:flex;
       justify-content:space-between;
-      align-items:flex-end;
-      box-shadow:var(--t-gGlow);
-      position:relative;
-      overflow:hidden;
-      min-height:76px;
-    }
-    .t-topbar .scanline{
-      position:absolute;
-      left:0; top:-120px;
-      width:100%; height:120px;
-      background:linear-gradient(0deg, rgba(0,255,65,0) 0%, rgba(0,255,65,.08) 50%, rgba(0,255,65,0) 100%);
-      animation:t_scanMove 6s linear infinite;
-      opacity:.5;
-      pointer-events:none;
-    }
-    @keyframes t_scanMove{ 0%{top:-120px} 100%{top:110%} }
-
-    .t-brand{ display:flex; flex-direction:column; gap:6px; }
-    .t-brand .title{
-      font-size:22px; letter-spacing:4px; font-weight:700; text-shadow:var(--t-gGlow);
-      white-space:nowrap;
-      display:flex; align-items:center; gap:10px;
-    }
-    .t-brand .sub{ font-size:11px; color:var(--t-gDim); letter-spacing:2px; }
-
-    .t-meta{ text-align:right; font-size:11px; line-height:1.25; color:var(--t-g); white-space:nowrap; }
-    .t-pill{
-      display:inline-block; padding:2px 8px; border:1px solid var(--t-gDim);
-      background:rgba(0,59,17,.10); margin-left:6px;
-    }
-    .t-pill.warn{ border-color:#ffcc00; color:#ffcc00; background:rgba(255,204,0,.08); }
-    .t-pill.crit{ border-color:var(--t-r); color:var(--t-r); background:rgba(255,0,60,.08); animation:t_blink .6s infinite; }
-    @keyframes t_blink{ 50%{opacity:0} }
-
-    .t-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      grid-template-rows:1fr 1fr;
-      gap:var(--t-grid-gap);
-      min-height:0;
-    }
-
-    .t-panel{
-      border:2px solid var(--t-gDim);
-      background:rgba(0,0,0,.55);
-      position:relative;
-      overflow:hidden;
-      padding:12px;
-      padding-top:44px;
-      min-height:0;
-      box-shadow:0 0 12px rgba(0,255,65,.12);
-    }
-
-    .t-panel .ptitle{
-      position:absolute;
-      top:10px;
-      left:12px;
-      right:12px;
-      height:24px;
-      display:flex;
       align-items:center;
-      padding:0 10px;
-      font-size:10px;
-      letter-spacing:2px;
-      border:1px solid var(--t-gDim);
-      background:rgba(0,0,0,.85);
-      z-index:5;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+    }
+    
+    .t-meta-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
 
-    .t-panel .content{
-      height:100%;
-      min-height:0;
-      overflow:auto;
-      padding-right:4px;
-    }
-    .t-panel .content::-webkit-scrollbar{ width:0; height:0; }
-
-    .t-panel.red{
-      border-color:var(--t-rDim);
-      box-shadow:0 0 14px rgba(255,0,60,.12);
-      font-family:'Share Tech Mono', monospace;
-    }
-    .t-panel.red .ptitle{ border-color:var(--t-rDim); color:var(--t-r); }
-    .t-panel.red, .t-panel.red *{ color:var(--t-r); }
-    .t-panel.red .muted{ color:var(--t-rDim); }
-    .t-panel.red .barWrap{ border-color:var(--t-rDim); }
-    .t-panel.red .barFill{ background:var(--t-r); box-shadow:0 0 10px rgba(255,0,60,.35); }
-    .t-panel.red .tag{ border-color:var(--t-rDim); background:rgba(255,0,60,.06); }
-
-    .row{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; }
-    .row .right{ margin-left:auto; text-align:right; }
-    .muted{ color:var(--t-gDim); }
-
-    .tag{
-      display:inline-block; padding:2px 8px;
-      border:1px solid var(--t-gDim); background:rgba(0,59,17,.08);
-      font-size:10px; white-space:nowrap;
-    }
-    .tag.tbd, .tag.confirm{ border-color:#ffcc00; color:#ffcc00; background:rgba(255,204,0,.08); }
-    .tag.ok{ border-color:var(--t-gDim); color:var(--t-g); }
-
-    .section{
-      margin-top:10px;
-      border:1px solid var(--t-gDim);
-      background:rgba(0,59,17,.05);
-      padding:10px;
-      position:relative;
-      min-height:0;
+    #critFlag {
+      background: rgba(255, 0, 60, 0.15);
+      color: var(--t-r);
+      border: 1px solid var(--t-r);
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: blink-danger 0.6s infinite;
+      box-shadow: var(--t-rGlow);
     }
 
-    .barWrap{
-      margin-top:6px; border:1px solid var(--t-gDim);
-      height:12px; position:relative; overflow:hidden;
-    }
-    .barFill{
-      height:100%; width:50%;
-      background:var(--t-g); box-shadow:var(--t-gGlow);
-      transition:width .35s ease;
-    }
-    .barGrid{
-      position:absolute; inset:0;
-      background-image:linear-gradient(90deg, var(--t-bg) 1px, transparent 1px);
-      background-size:10% 100%;
-      opacity:.45;
-      pointer-events:none;
+    @keyframes blink-danger {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.98); }
     }
 
-    .split{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-      min-height:0;
-    }
-
-    .log{
-      margin-top:10px;
-      border:1px solid var(--t-gDim);
-      background:rgba(0,0,0,.55);
-      padding:10px;
-      font-size:11px;
-      line-height:1.35;
-      height:160px;
-      overflow:hidden;
-      display:flex;
-      flex-direction:column-reverse;
-      min-height:0;
-    }
-    .log .entry{ margin:2px 0; border-left:2px solid var(--t-g); padding-left:8px; }
-    .log .time{ color:var(--t-gDim); margin-right:8px; }
-    .log .warn{ color:#ffcc00; }
-    .log .err{ color:var(--t-r); font-weight:700; border-left-color:var(--t-r); }
-
-    .matrixBox{
-      border:1px solid var(--t-g);
-      background:rgba(0,59,17,.03);
-      position:relative;
-      overflow:hidden;
-      height:220px;
-    }
-    .hexBg{
-      position:absolute; inset:0;
-      opacity:.18; color:var(--t-gDim);
-      font-size:10px; line-height:12px; word-break:break-all;
-      padding:8px; user-select:none;
-    }
-    .matrix{
-      position:absolute; inset:0;
-      display:flex; flex-direction:column;
-      justify-content:center; align-items:center;
-      padding:8px;
-      font-size:8px; line-height:8px;
-      color:var(--t-gDim);
-      user-select:none;
-    }
-    .matrix .active{ color:var(--t-g); text-shadow:var(--t-gGlow); }
-    .matrix .highlight{ color:#ffffff; text-shadow:0 0 10px rgba(255,255,255,0.9); }
-    .scannerLine{
-      position:absolute; left:0; top:0;
-      width:100%; height:2px;
-      background:var(--t-g); box-shadow:var(--t-gGlow);
-      opacity:.25;
-      animation:t_scan 4s linear infinite;
-    }
-    @keyframes t_scan{ 0%{top:0%} 100%{top:100%} }
-
-    table{ width:100%; border-collapse:collapse; font-size:10px; }
-    th{ text-align:left; border-bottom:1px solid var(--t-gDim); padding-bottom:6px; }
-    td{ padding:4px 0; }
-    .stOK{ color:var(--t-g); }
-    .stBUSY{ color:#ffcc00; }
-    .stERR{ color:var(--t-r); animation:t_blink .6s infinite; }
-
-    .t-footer{
-      border:1px solid var(--t-gDim);
-      background:rgba(0,59,17,.04);
-      padding:10px 12px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      font-size:10px;
-      color:var(--t-gDim);
-      min-height:40px;
-      align-items:center;
-      z-index:3;
-    }
-    .kbd span{
-      display:inline-block;
-      border:1px solid var(--t-gDim);
-      padding:1px 6px;
-      margin-right:6px;
-      color:var(--t-g);
-      background:rgba(0,59,17,.08);
-    }
-
-    /* back control */
     .backBtn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      border:1px solid var(--t-gDim);
-      background:rgba(0,59,17,.10);
+      background:rgba(0,255,65,0.1);
+      border:1px solid var(--t-g);
       color:var(--t-g);
-      text-transform:uppercase;
-      font-family:'Fira Code', monospace;
-      font-size:11px;
-      letter-spacing:2px;
+      padding:8px 15px;
       cursor:pointer;
-      user-select:none;
+      font-family: inherit;
+      text-transform: uppercase;
+      font-size: 12px;
     }
     .backBtn:hover{
-      border-color:var(--t-g);
-      box-shadow: var(--t-gGlow);
-    }
-    .backBtn .key{
-      border:1px solid var(--t-gDim);
-      padding:1px 6px;
-      background:rgba(0,59,17,.08);
-      color:var(--t-g);
-      font-size:10px;
+      background: var(--t-g);
+      color: #000;
     }
 
-    @media (max-width: 1100px){
-      body.mode-terminal{ overflow:auto; }
-      .t-app{ height:auto; }
-      .t-grid{ grid-template-columns:1fr; grid-template-rows:auto; }
-      .t-panel{ min-height:520px; }
-      .t-panel .content{ overflow:visible; }
+    .t-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 15px;
+      flex-grow: 1;
+    }
+    .t-panel {
+      border: 1px solid var(--t-gDim);
+      background: rgba(0, 20, 5, 0.4);
+      padding: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+    .t-panel.red { border-color: var(--t-rDim); color: var(--t-r); }
+    .ptitle {
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      opacity: 0.6;
     }
 
-    @media (max-width:640px){
-      /* -- Global & Intro -- */
-      .stats-container{
-        left:10px; bottom:10px;
-        min-width:auto;
-        width: calc(100% - 60px); /* Leave room for Nav */
-        padding: 12px;
-        font-size: 0.7rem; /* Smaller font */
-        background: rgba(0,0,0,0.92); /* More opaque */
-        z-index: 50; /* Ensure on top */
-        backdrop-filter: blur(10px);
-      }
-      .stats-container .spacer-top { margin-top: 0.25rem; }
-      
-      .cursor-hint{
-        bottom: auto; top: 72%; /* Move slightly above */
-        font-size:.7rem;
-        white-space:normal;
-        width: 100%;
-        padding: 0 30px;
-        pointer-events: none;
-        opacity: 0.8;
-      }
-      
-      .intro { padding: 1rem; padding-bottom: 35vh; }
-      .hero-title { font-size: clamp(1.8rem, 10vw, 3rem); }
-      .subline { font-size: 0.8rem; margin-top: 1rem; }
-      .mobile-only { display: inline; }
+    .log {
+      font-size: 11px;
+      height: calc(100% - 25px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .log::-webkit-scrollbar { width: 4px; }
+    .log::-webkit-scrollbar-thumb { background: var(--t-gDim); }
 
-      .nav-sidebar{ right: 5px; gap: 1.2rem; }
-      .nav-item { width: 44px; height: 44px; } /* Larger touch targets */
-      .nav-ghost { display: none; } /* Simplify */
-      :root{ --label-gap: 40px; }
+    .log-entry {
+      animation: log-fade-in 0.35s ease-out;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    @keyframes log-fade-in {
+      from { opacity: 0; transform: translateX(-8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
 
-      /* -- Terminal -- */
-      body.mode-terminal { overflow-y: auto; } /* Allow body scroll */
-      #terminalScreen { position: absolute; height: auto; min-height: 100%; overflow-y: auto; } /* Allow scrolling */
+    .log-time { opacity: 0.45; font-size: 0.85em; margin-right: 6px; }
+    .log-info { color: var(--t-g); }
+    .log-warn { color: #ffcc00; text-shadow: 0 0 5px rgba(255, 204, 0, 0.3); }
+    .log-crit { color: var(--t-r); font-weight: 700; text-shadow: var(--t-rGlow); }
+    .log-net { color: var(--accent-primary); }
+
+    .matrix-box {
+      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--t-gDim);
+      word-break: break-all;
+      line-height: 1.2;
+      overflow: hidden;
+    }
+
+    .matrix-char {
+      display: inline-block;
+      width: 8px;
+      text-align: center;
+      transition: none; /* Usunięto przejścia dla surowego wyglądu */
+    }
+
+    /* Usunięto efekty glow i animację dla sekcji Matrix w terminalu */
+    .matrix-char.glow {
+      color: var(--t-g); /* Zwykły zielony kolor bez blasku */
+      font-weight: 400;
+      text-shadow: none;
+      filter: none;
+      transform: none;
+      animation: none;
+    }
+
+    .net-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 40px;
+      margin-top: 15px;
+      border-bottom: 1px solid var(--t-gDim);
+      padding-bottom: 2px;
+    }
+    .net-bar {
+      flex: 1;
+      background: var(--t-g);
+      box-shadow: 0 0 5px var(--t-g);
+      transition: height 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      min-height: 4px;
+    }
+
+    /* =========================
+       MOBILE REFINEMENTS
+    ========================== */
+    @media (max-width: 640px) {
+      :root {
+        --dot-size: 12px;
+        --dot-hit: 44px;
+        --dot-gap: 1.8rem;
+      }
       
-      .t-app { 
-        height: auto; 
-        min-height: 100%; 
-        display: flex; 
-        flex-direction: column; 
-        padding: 10px;
-        gap: 16px;
+      .mobile-only { display: block; }
+      
+      .vignette {
+        background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.6) 100%);
       }
 
-      .t-topbar {
-        flex-direction: column;
-        align-items: flex-start;
-        height: auto;
-        min-height: auto;
-        padding: 10px;
-        gap: 10px;
+      .hero-title { 
+        font-size: clamp(2.4rem, 12vw, 4rem); 
+        line-height: 1;
       }
-      .t-brand .title { font-size: 16px; flex-wrap: wrap; }
-      .t-brand .sub { display: none; } /* Too long for mobile */
-      .t-meta { 
-        text-align: left; 
-        margin-top: 8px; 
-        width: 100%;
-        border-top: 1px solid var(--t-gDim);
-        padding-top: 8px;
+      .hero-internal { 
+        font-size: 10px; 
+        letter-spacing: 3px; 
+        margin-top: 0.8rem;
       }
-      .t-pill { margin-left: 0; margin-right: 6px; margin-bottom: 4px; }
 
-      .t-grid { display: flex; flex-direction: column; gap: 16px; }
-      
-      .t-panel {
-        min-height: auto; 
-        height: auto;
-        padding-top: 36px; /* Space for title */
+      .hero {
+        margin-top: 12vh; /* Większy margines na mobile, aby nagłówek był wyżej */
       }
-      .t-panel .content { overflow: visible; height: auto; }
-      
-      /* Specific panel adjustments */
-      .matrixBox { height: 160px; }
-      .log { height: 140px; }
-      
-      /* Footer */
-      .t-footer { 
-        flex-direction: column-reverse; 
-        gap: 10px; 
-        align-items: center; 
+
+      .modules-section { 
+        position: fixed;
+        bottom: 2.8rem; 
+        left: 1.2rem;
+        margin-top: 0;
+        width: auto;
+        text-align: left;
+        font-size: 0.45rem; 
+        z-index: 5;
+        border-left: 1px solid var(--accent-primary);
+        padding-left: 8px;
+        opacity: 0.9;
+      }
+      .modules-title {
+        margin-bottom: 0.4rem;
+        font-size: 0.4rem;
+        letter-spacing: 2px;
+      }
+      .module-item {
+        margin-bottom: 3px;
+        white-space: pre;
+      }
+
+      .nav-sidebar {
+        right: 1.2rem;
+        bottom: 25%;
+        top: auto;
+        transform: none;
+        gap: var(--dot-gap);
+      }
+      .nav-dot {
+        width: var(--dot-size);
+        height: var(--dot-size);
+        background: rgba(255,255,255,0.35);
+      }
+      .nav-label {
+        right: 50px;
+        font-size: 0.65rem;
+      }
+
+      .log-ticker { 
+        bottom: 1.4rem; 
+        font-size: 0.52rem; 
+        width: 80%;
         text-align: center;
-        padding-bottom: 24px; /* Safe area */
       }
-      .kbd { display: none; }
+
+      .cursor-hint { 
+        width: 90%; 
+        bottom: 0.5rem; 
+        font-size: 0.55rem;
+      }
+
+      .stats-container { display: none; }
+      #cursor-ring, #cursor-dot { display: none; }
+
+      .t-app { padding: 12px; gap: 10px; }
+      .t-topbar {
+        padding: 10px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .t-meta-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .t-grid { 
+        grid-template-columns: 1fr; 
+        grid-template-rows: auto; 
+        gap: 10px;
+        overflow-y: auto;
+      }
+      .t-panel { padding: 12px; min-height: 120px; }
+    }
+
+    @media (pointer: coarse) {
+      #cursor-ring, #cursor-dot { display: none !important; }
+      body.mode-intro * { cursor: default !important; }
     }
   </style>
 <link rel="stylesheet" href="/index.css">
 </head>
 
 <body class="mode-intro">
-  <!-- INTRO custom cursor -->
   <div id="cursor-ring"></div>
   <div id="cursor-dot"></div>
 
-  <!-- INTRO SCREEN -->
   <div id="introScreen">
     <div class="matrix-grid" id="matrixGrid"></div>
     <div class="vignette"></div>
 
-    <!-- HUD -->
     <div class="stats-container">
-      <div>
-        <span class="label">COORD:</span>
-        <span class="value"><span id="pos-x">000</span>|<span id="pos-y">000</span></span>
-      </div>
-      <div>
-        <span class="label">MOTION:</span>
-        <span class="value" id="vel">0.00</span>
-      </div>
-      <div>
-        <span class="label">STATUS:</span>
-        <span class="value" id="c-state">NEUTRAL</span>
-      </div>
-      <div>
-        <span class="label">ALERT:</span>
-        <span class="value dim" id="alert">NONE</span>
-      </div>
-
-      <div class="spacer-top">
-        <span class="label">E-MAIL:</span>
-        <span class="value email-value">
-          <span>olsze3wsky@</span>
-          <svg class="gmail-icon" viewBox="0 0 24 24" aria-label="Gmail" role="img">
-            <path d="M4 6.5h16c.55 0 1 .45 1 1V18c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V7.5c0-.55.45-1 1-1z" fill="#FFFFFF" opacity="0.12"/>
-            <path d="M4 8.2V18c0 .55.45 1 1 1h3V11.2L4 8.2z" fill="#EA4335"/>
-            <path d="M20 8.2V18c0 .55-.45 1-1 1h-3V11.2l4-3z" fill="#EA4335"/>
-            <path d="M8 11.2V19h8v-7.8l-4 3-4-3z" fill="#FFFFFF"/>
-            <path d="M12 13.2 4 7.2c.18-.43.6-.7 1.08-.7H6l6 4.6 6-4.6h.92c.48 0 .9.27 1.08.7l-8 6z" fill="#FBBC05"/>
-            <path d="M12 11.1 6 6.5h12l-6 4.6z" fill="#34A853"/>
-            <path d="M4.1 7.2 12 13.2l7.9-6c-.16-.42-.58-.7-1.06-.7H5.16c-.48 0-.9.28-1.06.7z" fill="#4285F4" opacity="0.35"/>
-          </svg>
-        </span>
-      </div>
+      <div><span class="label">COORD:</span> <span class="value"><span id="pos-x">000</span>|<span id="pos-y">000</span></span></div>
+      <div><span class="label">MOTION:</span> <span class="value" id="vel">0.00</span></div>
+      <div><span class="label">STATUS:</span> <span class="value" id="c-state">NEUTRAL</span></div>
+      <div><span class="label">ALERT:</span> <span class="value dim" id="alert">NONE</span></div>
     </div>
 
-    <!-- NAV DOTS -->
-    <div class="nav-sidebar" aria-label="Szybka nawigacja">
-      <div class="nav-item" data-label="MILVITA" aria-label="MILVITA">
-        <span class="nav-label">MILVITA</span>
-        <span class="nav-dot"></span>
-        <span class="nav-hit"></span>
-      </div>
-
-      <div class="nav-item" data-label="ALGORYTM DICE" aria-label="ALGORYTM DICE">
-        <span class="nav-label">ALGORYTM DICE</span>
-        <span class="nav-dot"></span>
-        <span class="nav-hit"></span>
-      </div>
-
-      <div class="nav-item is-gensyn" data-label="GENSYN" aria-label="GENSYN" id="navGensyn">
-        <span class="nav-ghost">GENSYN</span>
-        <span class="nav-label">GENSYN</span>
-        <span class="nav-dot"></span>
-        <span class="nav-hit"></span>
-      </div>
-
-      <div class="nav-item" data-label="WEB/APP" aria-label="WEB/APP">
-        <span class="nav-label">WEB/APP</span>
-        <span class="nav-dot"></span>
-        <span class="nav-hit"></span>
-      </div>
+    <div class="nav-sidebar">
+      <div class="nav-item" data-label="MILVITA"><span class="nav-label">MILVITA</span><span class="nav-dot"></span></div>
+      <div class="nav-item" data-label="ALGORYTM DICE"><span class="nav-label">ALGORYTM DICE</span><span class="nav-dot"></span></div>
+      <div class="nav-item" data-label="GENSYN" id="navGensyn"><span class="nav-label">GENSYN</span><span class="nav-dot"></span></div>
+      <div class="nav-item" data-label="WEB/APP"><span class="nav-label">WEB/APP</span><span class="nav-dot"></span></div>
     </div>
 
-    <!-- INTRO -->
-    <div class="intro" id="introCenter">
+    <div class="intro">
       <div class="hero">
         <div class="hero-title">INTERACTIV</div>
         <div class="hero-title">OLO DASH</div>
-        <div class="subline">
-          proj3ct syst3m<br class="mobile-only" /> paran<span class="olo-orange">0L0</span>mal activi
+        <div class="hero-internal">INTERNAL OLOPERATIONS INTERFACE</div>
+        
+        <div class="modules-section">
+          <div class="modules-title">ACTIVE MODULES:</div>
+          <span class="module-item">> GENSYN        <span class="status-online">[ONLINE]</span></span>
+          <span class="module-item">> MILVITA       <span class="status-standby">[STANDBY]</span></span>
+          <span class="module-item">> WEB / APP     <span class="status-locked">[LOCKED]</span></span>
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM -->
+    <div id="logTicker" class="log-ticker">LOG: MODULE CHECKSUM OK</div>
+
     <div class="cursor-hint">
-      DOSTĘP TYMCZASOWY UDZIELONO DLA – <span class="gensyn-red">GENSYN</span>
+      UNAUTHORIZED ACCESS PROHIBITED
     </div>
   </div>
 
-  <!-- TERMINAL SCREEN -->
-  <div id="terminalScreen" class="terminal-overlay" aria-hidden="true">
-    <div class="t-app" id="tApp">
+  <div id="terminalScreen" class="terminal-overlay">
+    <div class="t-app">
       <div class="t-topbar">
-        <div class="scanline"></div>
-        <div class="t-brand">
-          <div class="title">
-            <button class="backBtn" id="backToIntro" type="button">
-              <span class="key">ESC</span> POWRÓT
-            </button>
-            <span>GENSYN // OLO TERMINAL</span>
-          </div>
-          <div class="sub">DEZENTRALIZOWANE TRENINGI ML • KRYPTO-WERYFIKACJA PRACY • WORKERS/VERIFIERS</div>
+        <div class="t-meta-info">
+          <div>GENSYN // OLO TERMINAL</div>
+          <div id="critFlag">CRITICAL ALERT</div>
         </div>
-        <div class="t-meta">
-          CZAS: <span id="nowTime">00:00:00</span><br/>
-          STATUS: <span class="t-pill" id="netStatus">POŁĄCZONO</span>
-          RYZYKO ROI: <span class="t-pill warn" id="roiRisk">ZMIENNE</span><br/>
-          TOKEN (ZAKUP): <span class="t-pill" id="tokenBuy">0.01</span>
-          OBECNIE: <span class="t-pill warn" id="tokenNow">0.04</span>
-          PLAN: <span class="t-pill warn" id="tokenPlan">0.10</span>
-        </div>
+        <button class="backBtn" id="backToIntro">ESC // POWRÓT</button>
       </div>
-
       <div class="t-grid">
-
         <section class="t-panel red">
-          <div class="ptitle">[ CORE NODE // ALERT & INTEGRITY ]</div>
-          <div class="content">
-            <div class="row">
-              <div>
-                <div style="font-size:12px; letter-spacing:2px;">WĘZEŁ: CORE_NODE_09</div>
-                <div class="muted" style="font-size:10px; margin-top:4px;">PROTOKÓŁ: POET/VERIFICATION • TRYB: TRUSTLESS COMPUTE</div>
-              </div>
-              <div class="tag" id="critFlag" style="font-weight:700;">! STAN: MONITORING !</div>
-            </div>
-
-            <div class="split">
-              <div class="section" style="border-color:var(--t-rDim); background:rgba(255,0,60,.03);">
-                <div class="row"><span class="muted">WERYFIKACJA (SUKCES)</span><span class="right" id="verifyOk">92%</span></div>
-                <div class="barWrap"><div class="barFill" id="verifyBar" style="width:92%"></div></div>
-
-                <div class="row" style="margin-top:10px;"><span class="muted">SAMPLE RATE</span><span class="right" id="sampleRate">3.5%</span></div>
-                <div class="barWrap"><div class="barFill" id="sampleBar" style="width:35%"></div></div>
-              </div>
-
-              <div class="section" style="border-color:var(--t-rDim); background:rgba(255,0,60,.03);">
-                <div class="row"><span class="muted">RYZYKO SLASHING</span><span class="right" id="slashingRisk">NISKIE</span></div>
-                <div class="row" style="margin-top:8px;"><span class="muted">NIEZGODNOŚCI</span><span class="right" id="mismatchCnt">0</span></div>
-                <div class="row" style="margin-top:8px;"><span class="muted">DOWODY (QUEUE)</span><span class="right" id="proofQueue">12</span></div>
-                <div class="row" style="margin-top:8px;"><span class="muted">TOKENOMIKA</span><span class="right tag confirm">[POTWIERDŹ]</span></div>
-              </div>
-            </div>
-
-            <div class="section" style="border-color:var(--t-rDim); background:rgba(255,0,60,.03); margin-top:12px;">
-              <div class="row"><span class="muted">KILL-CRITERIA (30 DNI)</span><span class="right" id="killGate">KILL-GATE: OK</span></div>
-              <div class="row" style="margin-top:8px;"><span class="muted">PAYOUT VS ENERGIA</span><span class="right" id="payoutVsPower">+0.12x</span></div>
-              <div class="barWrap"><div class="barFill" id="payoutBar" style="width:55%"></div></div>
-              <div class="muted" style="font-size:10px; margin-top:8px;">
-                KILL: BRAK ZADAŃ 30 DNI LUB PAYOUT &lt; KOSZT ENERGII
-              </div>
-            </div>
-
-            <div class="log" id="alertLog" style="border-color:var(--t-rDim);">
-              <div class="entry err"><span class="time">[00:00:00]</span> SYSTEM READY. WAITING FOR SIGNAL...</div>
-            </div>
-          </div>
+          <div class="ptitle">[ CENTRAL SYSTEM LOG ]</div>
+          <div class="log" id="centralLog"></div>
         </section>
-
         <section class="t-panel">
-          <div class="ptitle">[ CENTRALNY NADZÓR // SIEĆ & INSTANCJE ]</div>
-          <div class="content">
-            <div class="row">
-              <div>
-                <div style="font-size:12px; letter-spacing:2px;">KORPORACJA_NEURALNA // NADZÓR_V.4</div>
-                <div class="muted" style="font-size:10px; margin-top:4px;">
-                  TRAINERS(WORKERS): <span id="workers">0000</span> • VERIFIERS: <span id="verifiers">000</span> • WORKLOAD: <span id="workload">STABILNY</span>
-                </div>
-              </div>
-              <div class="right">
-                <span class="tag ok" id="uptime">UPTIME: 000:00:00</span>
-                <span class="tag" id="nodeIP">IP: 192.168.0.255</span>
-              </div>
-            </div>
-
-            <div class="split">
-              <div class="section">
-                <div class="row"><span>CPU_CORE_01</span><span class="right" id="cCpu1">45%</span></div>
-                <div class="barWrap"><div class="barFill" id="bCpu1" style="width:45%"></div><div class="barGrid"></div></div>
-
-                <div class="row" style="margin-top:10px;"><span>CPU_CORE_02</span><span class="right" id="cCpu2">12%</span></div>
-                <div class="barWrap"><div class="barFill" id="bCpu2" style="width:12%"></div><div class="barGrid"></div></div>
-
-                <div class="row" style="margin-top:10px;"><span>PAMIĘĆ_RAM</span><span class="right" id="cRam">8.4GB</span></div>
-                <div class="barWrap"><div class="barFill" id="bRam" style="width:65%"></div><div class="barGrid"></div></div>
-
-                <div class="row" style="margin-top:10px;"><span>PRZEPUSTOWOŚĆ</span><span class="right" id="bw">UP 12.5 / DN 142.1</span></div>
-                <div class="muted" style="font-size:10px; margin-top:6px;">
-                  BOTTLENECK: VRAM + PRZEPUSTOWOŚĆ • OPÓŹNIENIA MAJĄ ZNACZENIE PRZY WERYFIKACJI
-                </div>
-              </div>
-
-              <div class="section" style="padding:10px;">
-                <div class="matrixBox">
-                  <div class="scannerLine"></div>
-                  <div class="hexBg" id="hexBg"></div>
-                  <div class="matrix" id="tMatrix"></div>
-                </div>
-
-                <div style="margin-top:10px;">
-                  <table>
-                    <thead><tr><th>PID</th><th>PROCES</th><th>OBC</th><th>ST</th></tr></thead>
-                    <tbody id="procTable">
-                      <tr><td>1024</td><td>trainer_worker</td><td>0.1%</td><td class="stOK">OK</td></tr>
-                      <tr><td>4421</td><td>verifier_mod</td><td>14.2%</td><td class="stOK">OK</td></tr>
-                      <tr><td>8812</td><td>job_dispatch</td><td>65.0%</td><td class="stBUSY">BUSY</td></tr>
-                      <tr><td>0092</td><td>proof_pipe</td><td>2.4%</td><td class="stOK">OK</td></tr>
-                      <tr><td>6631</td><td>anti_cheat</td><td>4.1%</td><td class="stERR">ERR</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div class="log" id="centralLog">
-              <div class="entry"><span class="time">[00:00:00]</span> SYSTEM READY. WAITING FOR COMMAND...</div>
-            </div>
-          </div>
+          <div class="ptitle">[ MATRIX STATUS ]</div>
+          <div class="matrix-box" id="tMatrix"></div>
         </section>
-
         <section class="t-panel">
-          <div class="ptitle">[ OMEGA // PRZEPUSTOWOŚĆ & STRUMIEŃ LOGÓW ]</div>
-          <div class="content">
-            <div class="row">
-              <div>
-                <div style="font-size:12px; letter-spacing:2px;">Ω OMEGA_MONITOR_SYS_v2.4</div>
-                <div class="muted" style="font-size:10px; margin-top:4px;">
-                  STATUS: POŁĄCZONO [SZYFROWANIE AES-256] • ZADANIA: <span id="jobsRate">0.00</span>/MIN
-                </div>
-              </div>
-              <div class="right">
-                <span class="tag" id="omegaClock">CZAS: 00:00:00</span>
-                <span class="tag confirm">TOKEN: 0.01 → 0.04 → 0.10</span>
-              </div>
-            </div>
-
-            <div class="split">
-              <div class="section">
-                <div class="row"><span>OBCIĄŻENIE CPU</span><span class="right" id="oCpu">42%</span></div>
-                <div class="barWrap"><div class="barFill" id="oCpuBar" style="width:42%"></div><div class="barGrid"></div></div>
-
-                <div class="row" style="margin-top:10px;"><span>PAMIĘĆ OPERACYJNA</span><span class="right" id="oRam">6.4GB</span></div>
-                <div class="barWrap"><div class="barFill" id="oRamBar" style="width:68%"></div><div class="barGrid"></div></div>
-
-                <div class="row" style="margin-top:10px;"><span>TEMPERATURA</span><span class="right" id="oTemp">54°C</span></div>
-                <div class="barWrap"><div class="barFill" id="oTempBar" style="width:54%; background:#ff9900; box-shadow:none;"></div><div class="barGrid"></div></div>
-
-                <div class="muted" style="font-size:10px; margin-top:10px;">
-                  FAKT: WYPŁATY ZALEŻĄ OD POPYTU NA TRENING ML, NIE OD "HASHRATE".
-                </div>
-              </div>
-
-              <div class="section">
-                <div class="row"><span>ANALIZA PRZEPUSTOWOŚCI</span><span class="right tag" id="netIO">IN 124.5 • OUT 89.2</span></div>
-                <div style="margin-top:10px; border:1px solid var(--t-gDim); height:105px; display:flex; align-items:flex-end; gap:2px; padding:6px;" id="netBars"></div>
-                <div class="row" style="margin-top:8px; font-size:10px;">
-                  <span class="muted">OPÓŹNIENIE (RTT)</span><span class="right" id="rtt">18ms</span>
-                </div>
-                <div class="row" style="margin-top:6px; font-size:10px;">
-                  <span class="muted">WERYFIKACJA</span><span class="right" id="omegaSample">FRAGMENTARYCZNA</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="log" id="omegaLog">
-              <div class="entry"><span class="time">[00:00:00]</span> INICJALIZACJA PROTOKOŁU OMEGA... GOTOWE.</div>
-            </div>
-          </div>
+          <div class="ptitle">[ OMEGA STREAM ]</div>
+          <div class="log" id="omegaLog"></div>
         </section>
-
-        <section class="t-panel" id="pRes">
-          <div class="ptitle">[ ZASOBY // MAC MINI • PRZYCHÓD • ROI ]</div>
-          <div class="content">
-            <div class="row">
-              <div>
-                <div style="font-size:12px; letter-spacing:2px;">OPERACJA: ZIELONY LUMINOFOR</div>
-                <div class="muted" style="font-size:10px; margin-top:4px;">
-                  SYMULACJA: 5× MAC MINI M4 32GB • HORYZONT: 178 DNI • PLAN: 7237 USD
-                </div>
-              </div>
-              <div class="right"><span class="tag" id="resClock">12:00:00.000</span></div>
-            </div>
-
-            <div class="section" style="margin-top:12px;">
-              <div style="display:grid; grid-template-columns: 1.2fr .8fr; gap:10px;">
-                <div class="muted" style="font-size:11px; line-height:1.55;">
-                  PRZYCHÓD (5× MAC MINI M4 32GB)<br/>
-                  HORYZONT: <span style="color:var(--t-g);">178 DNI</span><br/>
-                  PLANOWANY PRZYCHÓD: <span style="color:var(--t-g);">7,237 USD</span><br/>
-                  ŚREDNIO: <span style="color:var(--t-g);">~ 40.66 USD/D</span>
-                </div>
-
-                <div style="border:1px solid var(--t-gDim); padding:10px; background:rgba(0,59,17,.04);">
-                  <div class="muted" style="font-size:10px;">TOKEN (ZAKUP)</div>
-                  <div style="font-size:18px; text-shadow:var(--t-gGlow);">0.01</div>
-                  <div style="margin-top:8px; font-size:10px;">
-                    OBECNIE: <span style="color:#ffcc00;">0.04</span><br/>
-                    PLAN: <span style="color:#ffcc00;">0.10</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="split">
-              <div class="section">
-                <div class="row"><span>WORKLOAD (DZIŚ)</span><span class="right tag ok" id="wlNow">STABILNY</span></div>
-                <div class="row" style="margin-top:10px;"><span>HIPOTEZA (KONSERW.)</span><span class="right tag">PRĄD + MAŁY MARGINES</span></div>
-                <div class="row" style="margin-top:8px;"><span>HIPOTEZA (OPTYM.)</span><span class="right tag">ROI &lt; 12–18 M-CY</span></div>
-                <div class="muted" style="font-size:10px; margin-top:10px;">
-                  [POTWIERDŹ] MAINNET/EMISJA/SLASHING/INFLACJA PRZED WEJŚCIEM KAPITAŁOWYM.
-                </div>
-              </div>
-
-              <div class="section">
-                <div class="row"><span>ROI EST.</span><span class="right" id="roiEst">18–30 M-CY (HIP)</span></div>
-                <div class="barWrap"><div class="barFill" id="roiBar" style="width:52%"></div><div class="barGrid"></div></div>
-
-                <div class="row" style="margin-top:10px;"><span>PAYOUT VS KOSZT</span><span class="right" id="payoutVsPower2">+0.12x</span></div>
-                <div class="barWrap"><div class="barFill" id="payoutBar2" style="width:55%"></div><div class="barGrid"></div></div>
-
-                <div class="muted" style="font-size:10px; margin-top:10px;">
-                  KILL: 30 DNI BEZ STABILNYCH ZADAŃ LUB PAYOUT &lt; KOSZT.
-                </div>
-              </div>
-            </div>
-          </div>
+        <section class="t-panel">
+          <div class="ptitle">[ RESOURCE MONITOR ]</div>
+          <div id="resClock">00:00:00.000</div>
+          <div id="netBars" class="net-bars"></div>
         </section>
-
-      </div>
-
-      <div class="t-footer">
-        <div class="kbd">
-          <span>F1</span>HELP
-          <span>F2</span>PROCESY
-          <span>F3</span>SIEĆ
-          <span>F4</span>LOGI
-          <span>F10</span>WYLOGUJ
-        </div>
-        <div>SYSTEM: GENSYN_OLO_OS v0.9 • TOKEN: 0.01 → 0.04 → 0.10</div>
       </div>
     </div>
   </div>
 
   <script>
-    /* =========================
-       INTRO: GRID
-    ========================== */
+    // Grid
     const gridHost = document.getElementById('matrixGrid');
-    for (let i = 0; i < 400; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'grid-cell';
-      gridHost.appendChild(cell);
+    if (gridHost) {
+      const cellsCount = window.innerWidth < 640 ? 200 : 400;
+      for (let i = 0; i < cellsCount; i++) gridHost.appendChild(document.createElement('div')).className = 'grid-cell';
     }
 
-    /* =========================
-       INTRO: CURSOR + HUD
-    ========================== */
-    const ring = document.getElementById('cursor-ring');
-    const dot  = document.getElementById('cursor-dot');
-
-    const posX = document.getElementById('pos-x');
-    const posY = document.getElementById('pos-y');
-    const velDisplay = document.getElementById('vel');
-    const stateDisplay = document.getElementById('c-state');
-    const alertDisplay = document.getElementById('alert');
-
-    let mouse = { x: innerWidth / 2, y: innerHeight / 2 };
-    let ringPos = { x: mouse.x, y: mouse.y };
-    let dotPos  = { x: mouse.x, y: mouse.y };
-    let lastMouse = { x: mouse.x, y: mouse.y };
-
-    function pad3(n) {
-      const s = String(Math.max(0, Math.min(999, n)));
-      return s.length === 1 ? "00" + s : s.length === 2 ? "0" + s : s;
-    }
-
-    window.addEventListener('mousemove', e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-
-      if (document.body.classList.contains('mode-intro')) {
-        posX.textContent = pad3(Math.round(mouse.x));
-        posY.textContent = pad3(Math.round(mouse.y));
-
-        const dx = mouse.x - lastMouse.x;
-        const dy = mouse.y - lastMouse.y;
-        const v = Math.sqrt(dx*dx + dy*dy);
-        velDisplay.textContent = v.toFixed(2);
-
-        if (v > 20) {
-          stateDisplay.textContent = "ACTIVE";
-          stateDisplay.style.color = "var(--accent-tertiary)";
-        } else {
-          stateDisplay.textContent = "NEUTRAL";
-          stateDisplay.style.color = "var(--accent-primary)";
-        }
-        alertDisplay.textContent = "NONE";
-        lastMouse = { x: mouse.x, y: mouse.y };
-      }
+    // Cursor
+    const ring = document.getElementById('cursor-ring'), dot = document.getElementById('cursor-dot');
+    let mouse = { x: innerWidth / 2, y: innerHeight / 2 }, ringPos = { ...mouse }, dotPos = { ...mouse };
+    window.addEventListener('mousemove', e => { 
+      mouse.x = e.clientX; mouse.y = e.clientY; 
+      const px = document.getElementById('pos-x'), py = document.getElementById('pos-y');
+      if (px) px.textContent = String(Math.floor(mouse.x)).padStart(3,'0');
+      if (py) py.textContent = String(Math.floor(mouse.y)).padStart(3,'0');
     });
 
-    function animateCursor() {
-      ringPos.x += (mouse.x - ringPos.x) * 0.22;
-      ringPos.y += (mouse.y - ringPos.y) * 0.22;
-      ring.style.transform = `translate(${ringPos.x}px, ${ringPos.y}px) translate(-50%, -50%)`;
-
-      dotPos.x += (mouse.x - dotPos.x) * 0.35;
-      dotPos.y += (mouse.y - dotPos.y) * 0.35;
-      dot.style.transform = `translate(${dotPos.x}px, ${dotPos.y}px) translate(-50%, -50%)`;
-
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    /* =========================
-       INTRO: NAV TYPE ANIM
-    ========================== */
-    const TYPE_MS = 260;
-    function calcSteps(text){
-      const n = Math.max(6, Math.min(32, text.trim().length));
-      return n;
-    }
-
-    document.querySelectorAll('.nav-item').forEach(item => {
-      const label = item.querySelector('.nav-label');
-      const text = (item.getAttribute('data-label') || label?.textContent || '').trim();
-      if (label) {
-        label.textContent = text;
-        label.style.setProperty('--steps', calcSteps(text));
+    function animate() {
+      if (window.innerWidth > 640) {
+        ringPos.x += (mouse.x - ringPos.x) * 0.15; ringPos.y += (mouse.y - ringPos.y) * 0.15;
+        ring.style.left = `${ringPos.x}px`; ring.style.top = `${ringPos.y}px`;
+        dotPos.x += (mouse.x - dotPos.x) * 0.3; dotPos.y += (mouse.y - dotPos.y) * 0.3;
+        dot.style.left = `${dotPos.x}px`; dot.style.top = `${dotPos.y}px`;
       }
-
-      let leaveTimer = null;
-      item.addEventListener('mouseenter', () => {
-        if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-        item.classList.remove('is-leaving');
-        item.classList.add('is-entering');
-      });
-
-      item.addEventListener('mouseleave', () => {
-        item.classList.remove('is-entering');
-        item.classList.add('is-leaving');
-        leaveTimer = setTimeout(() => item.classList.remove('is-leaving'), TYPE_MS + 60);
-      });
-    });
-
-    /* =========================
-       TERMINAL: CLOCK + EFFECTS
-    ========================== */
-    const pad2 = (n) => String(n).padStart(2,'0');
-    const rnd = (min,max) => Math.random()*(max-min)+min;
-    const irnd = (min,max) => Math.floor(rnd(min,max+1));
-
-    function nowPL(){
-      const d = new Date();
-      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+      requestAnimationFrame(animate);
     }
-    function nowPLms(){
-      const d = new Date();
-      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}.${String(d.getMilliseconds()).padStart(3,'0')}`;
-    }
-    function setText(id, txt){
-      const el = document.getElementById(id);
-      if(el) el.textContent = txt;
-    }
+    animate();
 
-    (function buildHex(){
-      let s="";
-      for(let i=0;i<2200;i++) s += Math.floor(Math.random()*16).toString(16);
-      const el = document.getElementById('hexBg');
-      if(el) el.textContent = s;
-    })();
-
-    function renderMatrix(){
-      const matrixEl = document.getElementById('tMatrix');
-      if(!matrixEl) return;
-      let html = "";
-      for(let i=0;i<25;i++){
-        let line = "";
-        for(let j=0;j<60;j++){
-          const r = Math.random();
-          const ch = r>0.9 ? '█' : (r>0.7 ? '▒' : '░');
-          // Logic update
-          const rndState = Math.random();
-          let stateClass = '';
-          if(rndState > 0.985) stateClass = 'highlight';
-          else if(rndState > 0.94) stateClass = 'active';
-          
-          line += `<span class="${stateClass}">${ch}</span>`;
-        }
-        html += `<div>${line}</div>`;
-      }
-      matrixEl.innerHTML = html;
-    }
-
-    function buildNetBars(){
-      const host = document.getElementById('netBars');
-      if(!host) return;
-      host.innerHTML = '';
-      for(let i=0;i<44;i++){
-        const b = document.createElement('div');
-        b.style.flex = '1';
-        b.style.background = 'var(--t-g)';
-        b.style.opacity = '0.55';
-        b.style.height = `${irnd(8,100)}%`;
-        b.style.transition = 'height 0.8s ease';
-        host.appendChild(b);
-      }
-    }
-
-    /* --- SIMULATION LOGIC --- */
-    const LOG_SYS = [
-      "Allocating VRAM block 0x4F...",
-      "Garbage collection started",
-      "Syncing ledger state [HASH_99]",
-      "Optimizing gradient descent",
-      "Handshake accepted: NODE_88",
-      "Verifying proof of work...",
-      "Job dispatch: BATCH_221",
-      "Flushing memory buffer"
-    ];
-    const LOG_NET = [
-      "Packet loss detected (0.02%)",
-      "Latency spike > 45ms",
-      "P2P connection established",
-      "Re-routing via PEER_04",
-      "Bandwidth throttled: AUTO",
-      "Incoming stream: 12MB/s"
-    ];
-
-    function addLog(id, msgs, type='info'){
-      const el = document.getElementById(id);
-      if(!el) return;
-      const txt = msgs[Math.floor(Math.random()*msgs.length)];
-      const row = document.createElement('div');
-      row.className = 'entry';
-      if(type==='warn') row.classList.add('warn');
-      if(type==='err') row.classList.add('err');
-      row.innerHTML = `<span class="time">[${nowPL()}]</span> ${txt}`;
-      el.insertBefore(row, el.firstChild);
-      if(el.children.length > 8) el.lastElementChild.remove();
-    }
-
-    function simTick(){
-      // CPU/RAM random jitter
-      if(Math.random()>0.4){
-         const c1 = irnd(30,70); document.getElementById('bCpu1').style.width = c1+'%'; document.getElementById('cCpu1').textContent = c1+'%';
-         const c2 = irnd(5,25); document.getElementById('bCpu2').style.width = c2+'%'; document.getElementById('cCpu2').textContent = c2+'%';
-      }
-      
-      // Net bars equalizer
-      const nb = document.getElementById('netBars');
-      if(nb){
-        Array.from(nb.children).forEach(b => {
-           b.style.height = irnd(5,100)+'%';
-        });
-      }
-      
-      // Random Stats
-      if(Math.random()>0.7){
-         document.getElementById('workers').textContent = irnd(1000,1200);
-         document.getElementById('bw').textContent = `UP ${irnd(10,14)}.${irnd(0,9)} / DN ${irnd(120,150)}.${irnd(0,9)}`;
-         document.getElementById('netIO').textContent = `IN ${irnd(110,130)}.${irnd(0,9)} • OUT ${irnd(80,95)}.${irnd(0,9)}`;
-      }
-
-      // Process table update (job_dispatch)
-      const pt = document.getElementById('procTable');
-      if(pt && pt.rows[2]) pt.rows[2].cells[2].textContent = irnd(50,95).toFixed(1)+'%';
-      
-      // Logs
-      if(Math.random()>0.92) addLog('centralLog', LOG_SYS);
-      if(Math.random()>0.92) addLog('omegaLog', LOG_NET, Math.random()>0.8?'warn':'info');
-      if(Math.random()>0.98) addLog('alertLog', ["INTEGRITY CHECK: OK", "PING: MAINNET 12ms", "Verifying..."], 'info');
-    }
-    /* ------------------------ */
-
-    let tIntervals = [];
-    function terminalStart(){
-      renderMatrix();
-      buildNetBars();
-
-      tIntervals.push(setInterval(renderMatrix, 1500));
-      tIntervals.push(setInterval(()=>{
-        setText('nowTime', nowPL());
-        setText('omegaClock', `CZAS: ${nowPL()}`);
-        setText('resClock', nowPLms());
-      }, 200));
-
-      // Start Simulation
-      tIntervals.push(setInterval(simTick, 1000));
-    }
-    function terminalStop(){
-      tIntervals.forEach(clearInterval);
-      tIntervals = [];
-    }
-
-    /* =========================
-       TRANSITION: INTRO -> TERMINAL
-       - klik w GENSYN
-       - smooth, + terminal parallax
-    ========================== */
+    // Mode Transitions
     const navGensyn = document.getElementById('navGensyn');
-    const backToIntro = document.getElementById('backToIntro');
-    const terminal = document.getElementById('terminalScreen');
-    const tApp = document.getElementById('tApp');
+    if (navGensyn) navGensyn.onclick = () => document.body.className = 'mode-terminal';
+    const backBtn = document.getElementById('backToIntro');
+    if (backBtn) backBtn.onclick = () => document.body.className = 'mode-intro';
 
-    let inTerminal = false;
-    let par = { x: 0, y: 0, tx: 0, ty: 0 };
+    // Matrix Logic
+    let glowIndices = new Set();
+    const isMobile = window.innerWidth < 640;
+    const MATRIX_SIZE = isMobile ? 120 : 320;
+    const matrixContainer = document.getElementById('tMatrix');
+    const matrixElements = [];
 
-    function enterTerminal(){
-      if(inTerminal) return;
-      inTerminal = true;
-
-      terminal.setAttribute('aria-hidden','false');
-      document.body.classList.remove('mode-intro');
-      document.body.classList.add('mode-terminal');
-
-      terminalStart();
-    }
-
-    function exitTerminal(){
-      if(!inTerminal) return;
-      inTerminal = false;
-
-      terminal.setAttribute('aria-hidden','true');
-      document.body.classList.remove('mode-terminal');
-      document.body.classList.add('mode-intro');
-
-      terminalStop();
-      // reset parallax
-      par = { x: 0, y: 0, tx: 0, ty: 0 };
-      if(tApp) tApp.style.transform = 'translate3d(0,0,0)';
-    }
-
-    // click gensyn dot
-    navGensyn.addEventListener('click', enterTerminal);
-
-    // back button
-    backToIntro.addEventListener('click', exitTerminal);
-
-    // ESC + F10 to back
-    window.addEventListener('keydown', (e) => {
-      if(!inTerminal) return;
-      if(e.key === 'Escape') exitTerminal();
-      if(e.key === 'F10') { e.preventDefault(); exitTerminal(); }
-    });
-
-    /* terminal parallax (subtle) */
-    window.addEventListener('mousemove', (e) => {
-      if(!inTerminal || !tApp) return;
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      const dx = (e.clientX - cx) / cx;
-      const dy = (e.clientY - cy) / cy;
-
-      par.tx = dx * 10; // strength
-      par.ty = dy * 8;
-    });
-
-    function tickParallax(){
-      if(inTerminal && tApp){
-        par.x += (par.tx - par.x) * 0.08;
-        par.y += (par.ty - par.y) * 0.08;
-        tApp.style.transform = `translate3d(${par.x}px, ${par.y}px, 0)`;
+    if (matrixContainer) {
+      for (let i = 0; i < MATRIX_SIZE; i++) {
+        const span = document.createElement('span');
+        span.className = 'matrix-char';
+        span.textContent = Math.random() > 0.5 ? '1' : '0';
+        matrixContainer.appendChild(span);
+        matrixElements.push(span);
       }
-      requestAnimationFrame(tickParallax);
     }
-    tickParallax();
+
+    function shuffleGlow() {
+      glowIndices.clear();
+      const count = Math.floor(MATRIX_SIZE * 0.25); 
+      for(let i=0; i<count; i++) glowIndices.add(Math.floor(Math.random() * MATRIX_SIZE));
+    }
+    setInterval(shuffleGlow, 2500);
+    shuffleGlow();
+
+    function updateMatrix() {
+      if (!matrixElements.length) return;
+      matrixElements.forEach((el, i) => {
+        if (Math.random() > 0.95) el.textContent = el.textContent === '1' ? '0' : '1';
+        if (glowIndices.has(i)) { 
+            if (!el.classList.contains('glow')) el.classList.add('glow'); 
+        } else { 
+            if (el.classList.contains('glow')) el.classList.remove('glow'); 
+        }
+      });
+    }
+    setInterval(updateMatrix, 100);
+
+    // Dynamic Logging
+    function addLog(elementId, message, type = 'info') {
+      const logBox = document.getElementById(elementId);
+      if (!logBox) return;
+      const timeStr = new Date().toLocaleTimeString('en-GB', { hour12: false });
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.innerHTML = `<span class="log-time">[${timeStr}]</span> <span>${message}</span>`;
+      logBox.appendChild(entry);
+      if (logBox.children.length > 60) logBox.removeChild(logBox.firstChild);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    const centralMessages = [
+      { text: "KERNEL: SWAP SPACE OPTIMIZED" },
+      { text: "PROC: PROCESS [4921] TERMINATED" },
+      { text: "MEM: HEAP ALLOCATION AT 82%" },
+      { text: "AUTH: USER 'OLO' SESSION EXTENDED" },
+      { text: "SEC: VULNERABILITY SCAN COMPLETED" },
+      { text: "CRIT: BUFFER OVERFLOW AT 0x4A2F" },
+      { text: "SYS: CHRONOS SYNC SUCCESSFUL" },
+      { text: "IO: DISK WRITE LATENCY 0.4MS" },
+      { text: "WARN: COOLING FAN RPM BELOW THRESHOLD" },
+      { text: "ENV: TEMPERATURE STABLE AT 42C" },
+      { text: "ALERT: UNAUTHORIZED PORT ACCESS" }
+    ];
+
+    const omegaMessages = [
+      { text: "NET: PACKET [0xF3A] ROUTED VIA NODE-7" },
+      { text: "SYNC: BUFFER OVERFLOW PREVENTED" },
+      { text: "WIFI: SIGNAL DROPPED -12dBm" },
+      { text: "SSL: HANDSHAKE SUCCESSFUL (TLS 1.3)" },
+      { text: "UDP: 142 BYTES FROM 10.0.0.1" },
+      { text: "ROUTE: DNS RESOLVED OLO.OPS.LOCAL" },
+      { text: "FIREWALL: BLOCKED INBOUND ON PORT 22" },
+      { text: "API: GENSYN HEARTBEAT OK" },
+      { text: "NET: LATENCY SPIKE DETECTED (240ms)" },
+      { text: "CDN: CACHE REVALIDATION COMPLETE" }
+    ];
+
+    const logTypes = ['info', 'warn', 'crit', 'net'];
+
+    function scheduleLog(elementId, messages) {
+      setTimeout(() => {
+        const entry = messages[Math.floor(Math.random() * messages.length)];
+        const randomType = logTypes[Math.floor(Math.random() * logTypes.length)];
+        addLog(elementId, entry.text, randomType);
+        scheduleLog(elementId, messages);
+      }, 800 + Math.random() * 4500);
+    }
+
+    addLog('centralLog', "SYSTEM BOOT SEQUENCE INITIATED", 'info');
+    addLog('omegaLog', "NETWORK INTERFACE eth0 UP", 'net');
+    scheduleLog('centralLog', centralMessages);
+    scheduleLog('omegaLog', omegaMessages);
+
+    // Bars
+    const netBarsContainer = document.getElementById('netBars');
+    const barCount = 12;
+    const bars = [];
+    if (netBarsContainer) {
+      for (let i = 0; i < barCount; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'net-bar';
+        bar.style.height = '10px';
+        netBarsContainer.appendChild(bar);
+        bars.push(bar);
+      }
+    }
+    setInterval(() => bars.forEach(bar => bar.style.height = `${Math.floor(Math.random()*36)+4}px`), 1000);
+
+    // Clock
+    setInterval(() => {
+      const el = document.getElementById('resClock');
+      if (el) el.textContent = new Date().toLocaleTimeString() + "." + String(new Date().getMilliseconds()).padStart(3, '0');
+    }, 50);
+
+    // Ticker
+    const msgs = ["LOG: MODULE CHECKSUM OK", "LOG: NODE HANDSHAKE VERIFIED", "LOG: NETWORK STABLE", "LOG: ENCRYPTION ACTIVE", "LOG: GENSYN SYNC COMPLETE"];
+    let idx = 0;
+    setInterval(() => {
+      const t = document.getElementById('logTicker');
+      if (t) {
+        t.style.opacity = 0;
+        setTimeout(() => { idx = (idx+1)%msgs.length; t.textContent = msgs[idx]; t.style.opacity = 0.8; }, 500);
+      }
+    }, 4000);
   </script>
 <script type="module" src="/index.tsx"></script>
 </body>
