@@ -1,114 +1,1359 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>MTG GROUP — Eksperci od Twojego Kapitału</title>
-    
-    <!-- Standard SEO Meta Tags -->
-    <meta name="description" content="Nowoczesne doradztwo finansowe i strategie kapitałowe dla firm oraz osób prywatnych. Optymalizacja cashflow i audyty strategiczne z MTG GROUP." />
-    <meta name="keywords" content="doradztwo finansowe, strategia kapitałowa, audyt finansowy, optymalizacja kosztów, MTG GROUP, finanse dla firm, zabezpieczenie kapitału" />
-    <meta name="author" content="MTG GROUP" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://mtg-group.com" />
-    <meta name="theme-color" content="#0c0e11" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>INTERACTIV OLO DASH</title>
 
-    <!-- Open Graph / Facebook / LinkedIn -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mtg-group.com" />
-    <meta property="og:title" content="MTG GROUP — Eksperci od Twojego Kapitału" />
-    <meta property="og:description" content="Innowacyjne podejście do finansów. Zabezpieczamy kapitał osób prywatnych i skalujemy spółki poprzez twarde dane i strategię." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&h=630&auto=format&fit=crop" />
-    <meta property="og:site_name" content="MTG GROUP" />
-    <meta property="og:locale" content="pl_PL" />
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;500&family=Fira+Code:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://mtg-group.com" />
-    <meta property="twitter:title" content="MTG GROUP — Eksperci od Twojego Kapitału" />
-    <meta property="twitter:description" content="Innowacyjne podejście do finansów. Zabezpieczamy kapitał osób prywatnych i skalujemy spółki." />
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&h=630&auto=format&fit=crop" />
+  <style>
+    :root{
+      --bg-color:#050505;
+      --accent-primary:#00f2ff;
+      --accent-secondary:#3a59ff;
+      --accent-tertiary:#7000ff;
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+      --text-main:#e0e0e0;
+      --alert-red:#ff003c;
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'bg-light': '#fdfbf7',
-              'bg-dark': '#0c0e11',
-              'text-dark': '#1a1d21',
-              'text-light': '#ffffff',
-              'accent': '#d4af37', // Gold-ish for premium feel
-              'muted-dark': 'rgba(255,255,255,.4)',
-            },
-            fontFamily: {
-              sans: ['IBM Plex Sans', 'sans-serif'],
-              mono: ['IBM Plex Mono', 'monospace'],
-              display: ['Space Grotesk', 'sans-serif'],
-            },
-            transitionTimingFunction: {
-              'custom': 'cubic-bezier(.16,1,.3,1)',
-            },
-            animation: {
-              'reveal-bounce': 'revealBounce 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-            },
-            keyframes: {
-              revealBounce: {
-                '0%': { opacity: '0', transform: 'translateY(30px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              }
-            }
-          }
-        }
-      }
-    </script>
+      --glass-border: rgba(255,255,255,0.12);
+      --hud-bg: rgba(0,0,0,0.82);
 
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+      --label-bg: rgba(0,0,0,0.72);
+      --label-radius: 12px;
+      --type-ms: 260ms;
 
-    <style>
-      html.lenis, html.lenis body { height: auto; }
-      .lenis.lenis-smooth { scroll-behavior: auto !important; }
-      body {
-        margin: 0;
-        background-color: #0c0e11;
-        color: #1a1d21;
-        -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
-      }
-      .noise-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none; z-index: 50;
-        opacity: 0.05;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      }
-      .mix-difference { mix-blend-mode: difference; }
+      --dot-size: 10px;
+      --dot-hit: 30px;
+      --dot-gap: 1.4rem;
+      --label-gap: 44px;
 
-      @keyframes icon-float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-6px); }
-      }
-      .animate-icon-float {
-        animation: icon-float 4s ease-in-out infinite;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
+      --olo-orange: #ff8a1f;
+
+      /* cursor */
+      --cursor-ring: 34px;
+      --cursor-dot: 14px;
+
+      /* terminal palette (scoped usage) */
+      --t-bg:#050505;
+      --t-g:#00ff41;
+      --t-gDim:#003b11;
+      --t-gGlow:0 0 10px rgba(0,255,65,.45);
+
+      --t-r:#ff003c;
+      --t-rDim:#550014;
+      --t-rGlow:0 0 14px rgba(255,0,60,.35);
+
+      --t-crtA: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,.25) 50%),
+               linear-gradient(90deg, rgba(255,0,0,.06), rgba(0,255,0,.02), rgba(0,0,255,.06));
+      --t-grid-gap:14px;
+    }
+
+    /* MODE SWITCH */
+    html,body{height:100%; background:var(--bg-color); color:var(--text-main); overflow:hidden;}
+    body{font-family:'Inter',sans-serif;}
+    body.mode-intro *{ cursor:none!important; }
+    body.mode-terminal{ cursor:crosshair; }
+
+    /* =========================
+       INTRO LAYER
+    ========================== */
+    #introScreen{
+      position:fixed; inset:0;
+      z-index:10;
+      opacity:1;
+      transform:translateZ(0);
+      transition: opacity .45s ease, transform .55s cubic-bezier(.2,.9,.2,1), filter .45s ease;
+      will-change: opacity, transform, filter;
+    }
+    body.mode-terminal #introScreen{
+      opacity:0;
+      transform: translateY(10px) scale(0.985);
+      filter: blur(6px);
+      pointer-events:none;
+    }
+
+    /* GRID */
+    .matrix-grid{
+      position:fixed;inset:0;
+      display:grid;
+      grid-template-columns:repeat(20,1fr);
+      grid-template-rows:repeat(20,1fr);
+      opacity:.10;
+      pointer-events:none;
+      z-index:0;
+    }
+    .grid-cell{border:.5px solid rgba(255,255,255,.1)}
+    .vignette{
+      position:fixed;inset:0;
+      background:radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.75) 100%);
+      pointer-events:none;
+      z-index:1;
+    }
+
+    /* HERO */
+    .intro{
+      position:fixed;inset:0;
+      display:flex;justify-content:center;align-items:center;
+      z-index:2;padding:2rem;
+    }
+    .hero{text-align:center;user-select:none}
+
+    .hero-title{
+      font-family:'Syncopate',sans-serif;
+      font-size:clamp(2.2rem,8vw,6rem);
+      text-transform:uppercase;
+      font-weight:700;
+      letter-spacing:-2px;
+      line-height:.9;
+      background:linear-gradient(90deg,
+        #ffffff 0%,
+        #c9ffff 22%,
+        var(--accent-primary) 48%,
+        var(--accent-secondary) 72%,
+        var(--accent-tertiary) 100%
+      );
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      display:block;
+      filter:none;
+    }
+
+    .subline{
+      margin-top:2rem;
+      letter-spacing:5px;
+      font-weight:300;
+      color:#666;
+      font-size:.95rem;
+      font-family:'Inter',sans-serif;
+    }
+    .subline .olo-orange{
+      color: var(--olo-orange);
+      text-shadow: 0 0 10px rgba(255,138,31,0.20);
+    }
+
+    /* BOTTOM TEXT */
+    .cursor-hint{
+      position:fixed;
+      bottom:3rem;left:50%;
+      transform:translateX(-50%);
+      font-family:'JetBrains Mono',monospace;
+      font-size:.85rem;
+      opacity:.55;
+      z-index:2;
+      user-select:none;
+      white-space:nowrap;
+      text-align:center;
+      padding:0 1rem;
+    }
+    .gensyn-red{
+      color:var(--alert-red);
+      text-shadow:0 0 6px rgba(255,0,60,.45), 0 0 14px rgba(255,0,60,.35), 0 0 26px rgba(255,0,60,.25);
+    }
+
+    /* HUD */
+    .stats-container{
+      position:fixed;
+      bottom:2rem;left:2rem;
+      font-family:'JetBrains Mono',monospace;
+      font-size:.75rem;
+      z-index:3;
+      display:flex;
+      flex-direction:column;
+      gap:.5rem;
+      background:var(--hud-bg);
+      padding:1rem;
+      border-left:2px solid var(--accent-primary);
+      min-width:255px;
+      user-select:none;
+    }
+    .stats-container .label{color:#bbb}
+    .stats-container .value{color:var(--accent-primary)}
+    .stats-container .value.dim{color:#999}
+    .stats-container .spacer-top{margin-top:.35rem}
+    .email-value{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+    .gmail-icon{
+      width:14px;height:14px;display:inline-block;transform:translateY(1px);
+      filter:drop-shadow(0 0 6px rgba(255,255,255,0.10));
+    }
+
+    /* NAV */
+    .nav-sidebar{
+      position:fixed;
+      right:2rem;
+      top:50%;
+      transform:translateY(-50%);
+      display:flex;
+      flex-direction:column;
+      gap:var(--dot-gap);
+      z-index:6;
+      user-select:none;
+      overflow:visible;
+      transition: opacity .35s ease, transform .45s cubic-bezier(.2,.9,.2,1), filter .35s ease;
+      will-change: opacity, transform, filter;
+    }
+    body.mode-terminal .nav-sidebar{
+      opacity:0;
+      transform: translateY(-50%) translateX(12px);
+      filter: blur(4px);
+      pointer-events:none;
+    }
+
+    .nav-item{
+      position:relative;
+      width: var(--dot-hit);
+      height: var(--dot-hit);
+      overflow: visible;
+    }
+    .nav-hit{
+      position:absolute;
+      inset:0;
+      border-radius:999px;
+      background:transparent;
+    }
+    .nav-dot{
+      position:absolute;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+      width:var(--dot-size);
+      height:var(--dot-size);
+      border-radius:50%;
+      background:rgba(255,255,255,0.18);
+      z-index: 20;
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .nav-dot::before{
+      content:"";
+      position:absolute;
+      left:50%;top:50%;
+      transform:translate(-50%,-50%);
+      width:18px;height:18px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
+      opacity: 0;
+      transition: opacity .15s ease;
+    }
+    .nav-dot::after{
+      content:"";
+      position:absolute;
+      left:50%;top:50%;
+      transform:translate(-50%,-50%);
+      width:26px;height:26px;
+      border-radius:999px;
+      background:
+        radial-gradient(circle at 62% 62%, var(--alert-red) 0 4px, transparent 5px),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.92) 0 8px, transparent 9px),
+        radial-gradient(circle at 50% 50%, rgba(0,242,255,0.0) 0 10px, rgba(0,242,255,0.0) 10px),
+        radial-gradient(circle at 50% 50%, rgba(0,242,255,0.95) 0 13px, transparent 14px);
+      opacity: 0;
+      filter: drop-shadow(0 0 10px rgba(0,242,255,0.22));
+      transition: opacity .15s ease, transform .18s ease, filter .18s ease;
+    }
+
+    .nav-item:hover .nav-dot{
+      transform: translateY(-50%) scale(1.15);
+      filter: drop-shadow(0 0 12px rgba(0,242,255,0.20));
+    }
+    .nav-item:hover .nav-dot::before{ opacity: 1; }
+    .nav-item:hover .nav-dot::after{
+      opacity: 1;
+      transform: translate(-50%,-50%) scale(1.04);
+      filter: drop-shadow(0 0 14px rgba(0,242,255,0.32));
+    }
+
+    /* Ghost label */
+    .nav-ghost{
+      position:absolute;
+      right: 22px;
+      top:50%;
+      transform:translateY(-50%);
+      font-family:'JetBrains Mono',monospace;
+      font-size:.72rem;
+      letter-spacing:1px;
+      color:#cfcfcf;
+      opacity:.07;
+      padding:.30rem .48rem;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.05);
+      background:rgba(0,0,0,0.10);
+      backdrop-filter:blur(6px);
+      white-space:nowrap;
+      pointer-events:none;
+      transition: opacity .12s ease;
+    }
+    .nav-item.is-gensyn.is-entering .nav-ghost,
+    .nav-item.is-gensyn:hover .nav-ghost{ opacity: 0; }
+
+    /* Active label (type reveal) */
+    .nav-label{
+      position:absolute;
+      right: var(--label-gap);
+      top:50%;
+      transform:translateY(-50%);
+      font-family:'JetBrains Mono',monospace;
+      font-size:.72rem;
+      letter-spacing:1px;
+      color:#e6e6e6;
+      padding:.38rem .60rem;
+      border-radius:var(--label-radius);
+      border:1px solid var(--glass-border);
+      background:var(--label-bg);
+      backdrop-filter:blur(8px);
+      white-space:nowrap;
+      pointer-events:none;
+      z-index: 10;
+
+      opacity:0;
+      clip-path: inset(0 100% 0 0);
+      will-change: clip-path, opacity;
+    }
+    .nav-item.is-entering .nav-label{
+      opacity:1;
+      animation: typeIn var(--type-ms) steps(var(--steps,12), end) forwards;
+    }
+    .nav-item.is-leaving .nav-label{
+      opacity:1;
+      animation: typeOut var(--type-ms) steps(var(--steps,12), end) forwards;
+    }
+    @keyframes typeIn{
+      from{ clip-path: inset(0 100% 0 0); }
+      to  { clip-path: inset(0 0    0 0); }
+    }
+    @keyframes typeOut{
+      from{ clip-path: inset(0 0    0 0); }
+      to  { clip-path: inset(0 0    0 100%); }
+    }
+
+    /* CURSOR intro */
+    #cursor-ring{
+      position:fixed;top:0;left:0;
+      width:var(--cursor-ring);height:var(--cursor-ring);
+      border:1px solid rgba(0,242,255,0.70);
+      border-radius:999px;
+      pointer-events:none;
+      z-index:9999;
+      transform:translate(-50%,-50%);
+      box-shadow: 0 0 14px rgba(0,242,255,0.12);
+      opacity:1;
+      transition: opacity .25s ease;
+    }
+    #cursor-dot{
+      position:fixed;top:0;left:0;
+      width:var(--cursor-dot);height:var(--cursor-dot);
+      border-radius:999px;
+      background:#ffffff;
+      pointer-events:none;
+      z-index:10000;
+      transform:translate(-50%,-50%);
+      mix-blend-mode:difference;
+      box-shadow: 0 0 10px rgba(255,255,255,0.08);
+      opacity:1;
+      transition: opacity .25s ease;
+    }
+    body.mode-terminal #cursor-ring,
+    body.mode-terminal #cursor-dot{
+      opacity:0;
+      pointer-events:none;
+    }
+
+    /* =========================
+       TERMINAL LAYER (FULLSCREEN)
+    ========================== */
+    #terminalScreen{
+      position:fixed; inset:0;
+      z-index:20;
+      opacity:0;
+      transform: translateY(12px) scale(0.99);
+      filter: blur(10px);
+      pointer-events:none;
+      transition: opacity .55s ease, transform .65s cubic-bezier(.2,.9,.2,1), filter .55s ease;
+      will-change: opacity, transform, filter;
+      background:var(--t-bg);
+    }
+    body.mode-terminal #terminalScreen{
+      opacity:1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+      pointer-events:auto;
+    }
+
+    /* terminal overlay */
+    .terminal-overlay::before{
+      content:"";
+      position:fixed; inset:0;
+      background:var(--t-crtA);
+      background-size:100% 4px, 3px 100%;
+      pointer-events:none;
+      z-index:9998;
+      opacity:.9;
+    }
+    .terminal-overlay::after{
+      content:"";
+      position:fixed; inset:0;
+      background:rgba(18,16,16,.12);
+      pointer-events:none;
+      z-index:9999;
+      animation:t_flicker .15s infinite;
+    }
+    @keyframes t_flicker{
+      0%{opacity:.25} 5%{opacity:.35} 10%{opacity:.22} 15%{opacity:.9}
+      20%{opacity:.18} 25%{opacity:.84} 30%{opacity:.66} 40%{opacity:.26}
+      50%{opacity:.96} 60%{opacity:.2} 70%{opacity:.53} 80%{opacity:.71}
+      100%{opacity:.24}
+    }
+
+    /* terminal layout (scoped) */
+    .t-app{
+      height:100%;
+      padding:16px;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      gap:12px;
+      color:var(--t-g);
+      font-family:'Fira Code', monospace;
+      text-transform:uppercase;
+      position:relative;
+      transform: translate3d(0,0,0);
+      will-change: transform;
+    }
+
+    .t-topbar{
+      border:2px solid var(--t-gDim);
+      background:rgba(0,59,17,.06);
+      padding:12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      box-shadow:var(--t-gGlow);
+      position:relative;
+      overflow:hidden;
+      min-height:76px;
+    }
+    .t-topbar .scanline{
+      position:absolute;
+      left:0; top:-120px;
+      width:100%; height:120px;
+      background:linear-gradient(0deg, rgba(0,255,65,0) 0%, rgba(0,255,65,.08) 50%, rgba(0,255,65,0) 100%);
+      animation:t_scanMove 6s linear infinite;
+      opacity:.5;
+      pointer-events:none;
+    }
+    @keyframes t_scanMove{ 0%{top:-120px} 100%{top:110%} }
+
+    .t-brand{ display:flex; flex-direction:column; gap:6px; }
+    .t-brand .title{
+      font-size:22px; letter-spacing:4px; font-weight:700; text-shadow:var(--t-gGlow);
+      white-space:nowrap;
+      display:flex; align-items:center; gap:10px;
+    }
+    .t-brand .sub{ font-size:11px; color:var(--t-gDim); letter-spacing:2px; }
+
+    .t-meta{ text-align:right; font-size:11px; line-height:1.25; color:var(--t-g); white-space:nowrap; }
+    .t-pill{
+      display:inline-block; padding:2px 8px; border:1px solid var(--t-gDim);
+      background:rgba(0,59,17,.10); margin-left:6px;
+    }
+    .t-pill.warn{ border-color:#ffcc00; color:#ffcc00; background:rgba(255,204,0,.08); }
+    .t-pill.crit{ border-color:var(--t-r); color:var(--t-r); background:rgba(255,0,60,.08); animation:t_blink .6s infinite; }
+    @keyframes t_blink{ 50%{opacity:0} }
+
+    .t-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      grid-template-rows:1fr 1fr;
+      gap:var(--t-grid-gap);
+      min-height:0;
+    }
+
+    .t-panel{
+      border:2px solid var(--t-gDim);
+      background:rgba(0,0,0,.55);
+      position:relative;
+      overflow:hidden;
+      padding:12px;
+      padding-top:44px;
+      min-height:0;
+      box-shadow:0 0 12px rgba(0,255,65,.12);
+    }
+
+    .t-panel .ptitle{
+      position:absolute;
+      top:10px;
+      left:12px;
+      right:12px;
+      height:24px;
+      display:flex;
+      align-items:center;
+      padding:0 10px;
+      font-size:10px;
+      letter-spacing:2px;
+      border:1px solid var(--t-gDim);
+      background:rgba(0,0,0,.85);
+      z-index:5;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .t-panel .content{
+      height:100%;
+      min-height:0;
+      overflow:auto;
+      padding-right:4px;
+    }
+    .t-panel .content::-webkit-scrollbar{ width:0; height:0; }
+
+    .t-panel.red{
+      border-color:var(--t-rDim);
+      box-shadow:0 0 14px rgba(255,0,60,.12);
+      font-family:'Share Tech Mono', monospace;
+    }
+    .t-panel.red .ptitle{ border-color:var(--t-rDim); color:var(--t-r); }
+    .t-panel.red, .t-panel.red *{ color:var(--t-r); }
+    .t-panel.red .muted{ color:var(--t-rDim); }
+    .t-panel.red .barWrap{ border-color:var(--t-rDim); }
+    .t-panel.red .barFill{ background:var(--t-r); box-shadow:0 0 10px rgba(255,0,60,.35); }
+    .t-panel.red .tag{ border-color:var(--t-rDim); background:rgba(255,0,60,.06); }
+
+    .row{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; }
+    .row .right{ margin-left:auto; text-align:right; }
+    .muted{ color:var(--t-gDim); }
+
+    .tag{
+      display:inline-block; padding:2px 8px;
+      border:1px solid var(--t-gDim); background:rgba(0,59,17,.08);
+      font-size:10px; white-space:nowrap;
+    }
+    .tag.tbd, .tag.confirm{ border-color:#ffcc00; color:#ffcc00; background:rgba(255,204,0,.08); }
+    .tag.ok{ border-color:var(--t-gDim); color:var(--t-g); }
+
+    .section{
+      margin-top:10px;
+      border:1px solid var(--t-gDim);
+      background:rgba(0,59,17,.05);
+      padding:10px;
+      position:relative;
+      min-height:0;
+    }
+
+    .barWrap{
+      margin-top:6px; border:1px solid var(--t-gDim);
+      height:12px; position:relative; overflow:hidden;
+    }
+    .barFill{
+      height:100%; width:50%;
+      background:var(--t-g); box-shadow:var(--t-gGlow);
+      transition:width .35s ease;
+    }
+    .barGrid{
+      position:absolute; inset:0;
+      background-image:linear-gradient(90deg, var(--t-bg) 1px, transparent 1px);
+      background-size:10% 100%;
+      opacity:.45;
+      pointer-events:none;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+      min-height:0;
+    }
+
+    .log{
+      margin-top:10px;
+      border:1px solid var(--t-gDim);
+      background:rgba(0,0,0,.55);
+      padding:10px;
+      font-size:11px;
+      line-height:1.35;
+      height:160px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column-reverse;
+      min-height:0;
+    }
+    .log .entry{ margin:2px 0; border-left:2px solid var(--t-g); padding-left:8px; }
+    .log .time{ color:var(--t-gDim); margin-right:8px; }
+    .log .warn{ color:#ffcc00; }
+    .log .err{ color:var(--t-r); font-weight:700; border-left-color:var(--t-r); }
+
+    .matrixBox{
+      border:1px solid var(--t-g);
+      background:rgba(0,59,17,.03);
+      position:relative;
+      overflow:hidden;
+      height:220px;
+    }
+    .hexBg{
+      position:absolute; inset:0;
+      opacity:.18; color:var(--t-gDim);
+      font-size:10px; line-height:12px; word-break:break-all;
+      padding:8px; user-select:none;
+    }
+    .matrix{
+      position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      justify-content:center; align-items:center;
+      padding:8px;
+      font-size:8px; line-height:8px;
+      color:var(--t-gDim);
+      user-select:none;
+    }
+    .matrix .active{ color:var(--t-g); text-shadow:var(--t-gGlow); }
+    .scannerLine{
+      position:absolute; left:0; top:0;
+      width:100%; height:2px;
+      background:var(--t-g); box-shadow:var(--t-gGlow);
+      opacity:.25;
+      animation:t_scan 4s linear infinite;
+    }
+    @keyframes t_scan{ 0%{top:0%} 100%{top:100%} }
+
+    table{ width:100%; border-collapse:collapse; font-size:10px; }
+    th{ text-align:left; border-bottom:1px solid var(--t-gDim); padding-bottom:6px; }
+    td{ padding:4px 0; }
+    .stOK{ color:var(--t-g); }
+    .stBUSY{ color:#ffcc00; }
+    .stERR{ color:var(--t-r); animation:t_blink .6s infinite; }
+
+    .t-footer{
+      border:1px solid var(--t-gDim);
+      background:rgba(0,59,17,.04);
+      padding:10px 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      font-size:10px;
+      color:var(--t-gDim);
+      min-height:40px;
+      align-items:center;
+      z-index:3;
+    }
+    .kbd span{
+      display:inline-block;
+      border:1px solid var(--t-gDim);
+      padding:1px 6px;
+      margin-right:6px;
+      color:var(--t-g);
+      background:rgba(0,59,17,.08);
+    }
+
+    /* back control */
+    .backBtn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border:1px solid var(--t-gDim);
+      background:rgba(0,59,17,.10);
+      color:var(--t-g);
+      text-transform:uppercase;
+      font-family:'Fira Code', monospace;
+      font-size:11px;
+      letter-spacing:2px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .backBtn:hover{
+      border-color:var(--t-g);
+      box-shadow: var(--t-gGlow);
+    }
+    .backBtn .key{
+      border:1px solid var(--t-gDim);
+      padding:1px 6px;
+      background:rgba(0,59,17,.08);
+      color:var(--t-g);
+      font-size:10px;
+    }
+
+    @media (max-width:640px){
+      .stats-container{left:1rem;bottom:1rem;min-width:220px}
+      .cursor-hint{font-size:.75rem;white-space:normal}
+      .nav-sidebar{right:1rem}
+      :root{ --label-gap: 38px; }
+      .nav-ghost{ right: 18px; }
+    }
+
+    @media (max-width: 1100px){
+      body.mode-terminal{ overflow:auto; }
+      .t-app{ height:auto; }
+      .t-grid{ grid-template-columns:1fr; grid-template-rows:auto; }
+      .t-panel{ min-height:520px; }
+      .t-panel .content{ overflow:visible; }
+    }
+  </style>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+
+<body class="mode-intro">
+  <!-- INTRO custom cursor -->
+  <div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
+
+  <!-- INTRO SCREEN -->
+  <div id="introScreen">
+    <div class="matrix-grid" id="matrixGrid"></div>
+    <div class="vignette"></div>
+
+    <!-- HUD -->
+    <div class="stats-container">
+      <div>
+        <span class="label">COORD:</span>
+        <span class="value"><span id="pos-x">000</span>|<span id="pos-y">000</span></span>
+      </div>
+      <div>
+        <span class="label">MOTION:</span>
+        <span class="value" id="vel">0.00</span>
+      </div>
+      <div>
+        <span class="label">STATUS:</span>
+        <span class="value" id="c-state">NEUTRAL</span>
+      </div>
+      <div>
+        <span class="label">ALERT:</span>
+        <span class="value dim" id="alert">NONE</span>
+      </div>
+
+      <div class="spacer-top">
+        <span class="label">E-MAIL:</span>
+        <span class="value email-value">
+          <span>olsze3wsky@</span>
+          <svg class="gmail-icon" viewBox="0 0 24 24" aria-label="Gmail" role="img">
+            <path d="M4 6.5h16c.55 0 1 .45 1 1V18c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V7.5c0-.55.45-1 1-1z" fill="#FFFFFF" opacity="0.12"/>
+            <path d="M4 8.2V18c0 .55.45 1 1 1h3V11.2L4 8.2z" fill="#EA4335"/>
+            <path d="M20 8.2V18c0 .55-.45 1-1 1h-3V11.2l4-3z" fill="#EA4335"/>
+            <path d="M8 11.2V19h8v-7.8l-4 3-4-3z" fill="#FFFFFF"/>
+            <path d="M12 13.2 4 7.2c.18-.43.6-.7 1.08-.7H6l6 4.6 6-4.6h.92c.48 0 .9.27 1.08.7l-8 6z" fill="#FBBC05"/>
+            <path d="M12 11.1 6 6.5h12l-6 4.6z" fill="#34A853"/>
+            <path d="M4.1 7.2 12 13.2l7.9-6c-.16-.42-.58-.7-1.06-.7H5.16c-.48 0-.9.28-1.06.7z" fill="#4285F4" opacity="0.35"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- NAV DOTS -->
+    <div class="nav-sidebar" aria-label="Szybka nawigacja">
+      <div class="nav-item" data-label="MILVITA" aria-label="MILVITA">
+        <span class="nav-label">MILVITA</span>
+        <span class="nav-dot"></span>
+        <span class="nav-hit"></span>
+      </div>
+
+      <div class="nav-item" data-label="ALGORYTM DICE" aria-label="ALGORYTM DICE">
+        <span class="nav-label">ALGORYTM DICE</span>
+        <span class="nav-dot"></span>
+        <span class="nav-hit"></span>
+      </div>
+
+      <div class="nav-item is-gensyn" data-label="GENSYN" aria-label="GENSYN" id="navGensyn">
+        <span class="nav-ghost">GENSYN</span>
+        <span class="nav-label">GENSYN</span>
+        <span class="nav-dot"></span>
+        <span class="nav-hit"></span>
+      </div>
+
+      <div class="nav-item" data-label="WEB/APP" aria-label="WEB/APP">
+        <span class="nav-label">WEB/APP</span>
+        <span class="nav-dot"></span>
+        <span class="nav-hit"></span>
+      </div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="intro" id="introCenter">
+      <div class="hero">
+        <div class="hero-title">INTERACTIV</div>
+        <div class="hero-title">OLO DASH</div>
+        <div class="subline">
+          proj3ct syst3m paran<span class="olo-orange">0L0</span>mal activi
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="cursor-hint">
+      DOSTĘP TYMCZASOWY UDZIELONO DLA – <span class="gensyn-red">GENSYN</span>
+    </div>
+  </div>
+
+  <!-- TERMINAL SCREEN -->
+  <div id="terminalScreen" class="terminal-overlay" aria-hidden="true">
+    <div class="t-app" id="tApp">
+      <div class="t-topbar">
+        <div class="scanline"></div>
+        <div class="t-brand">
+          <div class="title">
+            <button class="backBtn" id="backToIntro" type="button">
+              <span class="key">ESC</span> POWRÓT
+            </button>
+            <span>GENSYN // OLO TERMINAL</span>
+          </div>
+          <div class="sub">DEZENTRALIZOWANE TRENINGI ML • KRYPTO-WERYFIKACJA PRACY • WORKERS/VERIFIERS</div>
+        </div>
+        <div class="t-meta">
+          CZAS: <span id="nowTime">00:00:00</span><br/>
+          STATUS: <span class="t-pill" id="netStatus">POŁĄCZONO</span>
+          RYZYKO ROI: <span class="t-pill warn" id="roiRisk">ZMIENNE</span><br/>
+          TOKEN (ZAKUP): <span class="t-pill" id="tokenBuy">0.01</span>
+          OBECNIE: <span class="t-pill warn" id="tokenNow">0.04</span>
+          PLAN: <span class="t-pill warn" id="tokenPlan">0.10</span>
+        </div>
+      </div>
+
+      <div class="t-grid">
+
+        <section class="t-panel red">
+          <div class="ptitle">[ CORE NODE // ALERT & INTEGRITY ]</div>
+          <div class="content">
+            <div class="row">
+              <div>
+                <div style="font-size:12px; letter-spacing:2px;">WĘZEŁ: CORE_NODE_09</div>
+                <div class="muted" style="font-size:10px; margin-top:4px;">PROTOKÓŁ: POET/VERIFICATION • TRYB: TRUSTLESS COMPUTE</div>
+              </div>
+              <div class="tag" id="critFlag" style="font-weight:700;">! STAN: MONITORING !</div>
+            </div>
+
+            <div class="split">
+              <div class="section" style="border-color:var(--t-rDim); background:rgba(255,0,60,.03);">
+                <div class="row"><span class="muted">WERYFIKACJA (SUKCES)</span><span class="right" id="verifyOk">92%</span></div>
+                <div class="barWrap"><div class="barFill" id="verifyBar" style="width:92%"></div></div>
+
+                <div class="row" style="margin-top:10px;"><span class="muted">SAMPLE RATE</span><span class="right" id="sampleRate">3.5%</span></div>
+                <div class="barWrap"><div class="barFill" id="sampleBar" style="width:35%"></div></div>
+              </div>
+
+              <div class="section" style="border-color:var(--t-rDim); background:rgba(255,0,60,.03);">
+                <div class="row"><span class="muted">RYZYKO SLASHING</span><span class="right" id="slashingRisk">NISKIE</span></div>
+                <div class="row" style="margin-top:8px;"><span class="muted">NIEZGODNOŚCI</span><span class="right" id="mismatchCnt">0</span></div>
+                <div class="row" style="margin-top:8px;"><span class="muted">DOWODY (QUEUE)</span><span class="right" id="proofQueue">12</span></div>
+                <div class="row" style="margin-top:8px;"><span class="muted">TOKENOMIKA</span><span class="right tag confirm">[POTWIERDŹ]</span></div>
+              </div>
+            </div>
+
+            <div class="section" style="border-color:var(--t-rDim); background:rgba(255,0,60,.03); margin-top:12px;">
+              <div class="row"><span class="muted">KILL-CRITERIA (30 DNI)</span><span class="right" id="killGate">KILL-GATE: OK</span></div>
+              <div class="row" style="margin-top:8px;"><span class="muted">PAYOUT VS ENERGIA</span><span class="right" id="payoutVsPower">+0.12x</span></div>
+              <div class="barWrap"><div class="barFill" id="payoutBar" style="width:55%"></div></div>
+              <div class="muted" style="font-size:10px; margin-top:8px;">
+                KILL: BRAK ZADAŃ 30 DNI LUB PAYOUT &lt; KOSZT ENERGII
+              </div>
+            </div>
+
+            <div class="log" id="alertLog" style="border-color:var(--t-rDim);">
+              <div class="entry err"><span class="time">[00:00:00]</span> SYSTEM READY. WAITING FOR SIGNAL...</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="t-panel">
+          <div class="ptitle">[ CENTRALNY NADZÓR // SIEĆ & INSTANCJE ]</div>
+          <div class="content">
+            <div class="row">
+              <div>
+                <div style="font-size:12px; letter-spacing:2px;">KORPORACJA_NEURALNA // NADZÓR_V.4</div>
+                <div class="muted" style="font-size:10px; margin-top:4px;">
+                  TRAINERS(WORKERS): <span id="workers">0000</span> • VERIFIERS: <span id="verifiers">000</span> • WORKLOAD: <span id="workload">STABILNY</span>
+                </div>
+              </div>
+              <div class="right">
+                <span class="tag ok" id="uptime">UPTIME: 000:00:00</span>
+                <span class="tag" id="nodeIP">IP: 192.168.0.255</span>
+              </div>
+            </div>
+
+            <div class="split">
+              <div class="section">
+                <div class="row"><span>CPU_CORE_01</span><span class="right" id="cCpu1">45%</span></div>
+                <div class="barWrap"><div class="barFill" id="bCpu1" style="width:45%"></div><div class="barGrid"></div></div>
+
+                <div class="row" style="margin-top:10px;"><span>CPU_CORE_02</span><span class="right" id="cCpu2">12%</span></div>
+                <div class="barWrap"><div class="barFill" id="bCpu2" style="width:12%"></div><div class="barGrid"></div></div>
+
+                <div class="row" style="margin-top:10px;"><span>PAMIĘĆ_RAM</span><span class="right" id="cRam">8.4GB</span></div>
+                <div class="barWrap"><div class="barFill" id="bRam" style="width:65%"></div><div class="barGrid"></div></div>
+
+                <div class="row" style="margin-top:10px;"><span>PRZEPUSTOWOŚĆ</span><span class="right" id="bw">UP 12.5 / DN 142.1</span></div>
+                <div class="muted" style="font-size:10px; margin-top:6px;">
+                  BOTTLENECK: VRAM + PRZEPUSTOWOŚĆ • OPÓŹNIENIA MAJĄ ZNACZENIE PRZY WERYFIKACJI
+                </div>
+              </div>
+
+              <div class="section" style="padding:10px;">
+                <div class="matrixBox">
+                  <div class="scannerLine"></div>
+                  <div class="hexBg" id="hexBg"></div>
+                  <div class="matrix" id="tMatrix"></div>
+                </div>
+
+                <div style="margin-top:10px;">
+                  <table>
+                    <thead><tr><th>PID</th><th>PROCES</th><th>OBC</th><th>ST</th></tr></thead>
+                    <tbody id="procTable">
+                      <tr><td>1024</td><td>trainer_worker</td><td>0.1%</td><td class="stOK">OK</td></tr>
+                      <tr><td>4421</td><td>verifier_mod</td><td>14.2%</td><td class="stOK">OK</td></tr>
+                      <tr><td>8812</td><td>job_dispatch</td><td>65.0%</td><td class="stBUSY">BUSY</td></tr>
+                      <tr><td>0092</td><td>proof_pipe</td><td>2.4%</td><td class="stOK">OK</td></tr>
+                      <tr><td>6631</td><td>anti_cheat</td><td>4.1%</td><td class="stERR">ERR</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="log" id="centralLog">
+              <div class="entry"><span class="time">[00:00:00]</span> SYSTEM READY. WAITING FOR COMMAND...</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="t-panel">
+          <div class="ptitle">[ OMEGA // PRZEPUSTOWOŚĆ & STRUMIEŃ LOGÓW ]</div>
+          <div class="content">
+            <div class="row">
+              <div>
+                <div style="font-size:12px; letter-spacing:2px;">Ω OMEGA_MONITOR_SYS_v2.4</div>
+                <div class="muted" style="font-size:10px; margin-top:4px;">
+                  STATUS: POŁĄCZONO [SZYFROWANIE AES-256] • ZADANIA: <span id="jobsRate">0.00</span>/MIN
+                </div>
+              </div>
+              <div class="right">
+                <span class="tag" id="omegaClock">CZAS: 00:00:00</span>
+                <span class="tag confirm">TOKEN: 0.01 → 0.04 → 0.10</span>
+              </div>
+            </div>
+
+            <div class="split">
+              <div class="section">
+                <div class="row"><span>OBCIĄŻENIE CPU</span><span class="right" id="oCpu">42%</span></div>
+                <div class="barWrap"><div class="barFill" id="oCpuBar" style="width:42%"></div><div class="barGrid"></div></div>
+
+                <div class="row" style="margin-top:10px;"><span>PAMIĘĆ OPERACYJNA</span><span class="right" id="oRam">6.4GB</span></div>
+                <div class="barWrap"><div class="barFill" id="oRamBar" style="width:68%"></div><div class="barGrid"></div></div>
+
+                <div class="row" style="margin-top:10px;"><span>TEMPERATURA</span><span class="right" id="oTemp">54°C</span></div>
+                <div class="barWrap"><div class="barFill" id="oTempBar" style="width:54%; background:#ff9900; box-shadow:none;"></div><div class="barGrid"></div></div>
+
+                <div class="muted" style="font-size:10px; margin-top:10px;">
+                  FAKT: WYPŁATY ZALEŻĄ OD POPYTU NA TRENING ML, NIE OD "HASHRATE".
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="row"><span>ANALIZA PRZEPUSTOWOŚCI</span><span class="right tag" id="netIO">IN 124.5 • OUT 89.2</span></div>
+                <div style="margin-top:10px; border:1px solid var(--t-gDim); height:105px; display:flex; align-items:flex-end; gap:2px; padding:6px;" id="netBars"></div>
+                <div class="row" style="margin-top:8px; font-size:10px;">
+                  <span class="muted">OPÓŹNIENIE (RTT)</span><span class="right" id="rtt">18ms</span>
+                </div>
+                <div class="row" style="margin-top:6px; font-size:10px;">
+                  <span class="muted">WERYFIKACJA</span><span class="right" id="omegaSample">FRAGMENTARYCZNA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="log" id="omegaLog">
+              <div class="entry"><span class="time">[00:00:00]</span> INICJALIZACJA PROTOKOŁU OMEGA... GOTOWE.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="t-panel" id="pRes">
+          <div class="ptitle">[ ZASOBY // MAC MINI • PRZYCHÓD • ROI ]</div>
+          <div class="content">
+            <div class="row">
+              <div>
+                <div style="font-size:12px; letter-spacing:2px;">OPERACJA: ZIELONY LUMINOFOR</div>
+                <div class="muted" style="font-size:10px; margin-top:4px;">
+                  SYMULACJA: 5× MAC MINI M4 32GB • HORYZONT: 178 DNI • PLAN: 7237 USD
+                </div>
+              </div>
+              <div class="right"><span class="tag" id="resClock">12:00:00.000</span></div>
+            </div>
+
+            <div class="section" style="margin-top:12px;">
+              <div style="display:grid; grid-template-columns: 1.2fr .8fr; gap:10px;">
+                <div class="muted" style="font-size:11px; line-height:1.55;">
+                  PRZYCHÓD (5× MAC MINI M4 32GB)<br/>
+                  HORYZONT: <span style="color:var(--t-g);">178 DNI</span><br/>
+                  PLANOWANY PRZYCHÓD: <span style="color:var(--t-g);">7,237 USD</span><br/>
+                  ŚREDNIO: <span style="color:var(--t-g);">~ 40.66 USD/D</span>
+                </div>
+
+                <div style="border:1px solid var(--t-gDim); padding:10px; background:rgba(0,59,17,.04);">
+                  <div class="muted" style="font-size:10px;">TOKEN (ZAKUP)</div>
+                  <div style="font-size:18px; text-shadow:var(--t-gGlow);">0.01</div>
+                  <div style="margin-top:8px; font-size:10px;">
+                    OBECNIE: <span style="color:#ffcc00;">0.04</span><br/>
+                    PLAN: <span style="color:#ffcc00;">0.10</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="split">
+              <div class="section">
+                <div class="row"><span>WORKLOAD (DZIŚ)</span><span class="right tag ok" id="wlNow">STABILNY</span></div>
+                <div class="row" style="margin-top:10px;"><span>HIPOTEZA (KONSERW.)</span><span class="right tag">PRĄD + MAŁY MARGINES</span></div>
+                <div class="row" style="margin-top:8px;"><span>HIPOTEZA (OPTYM.)</span><span class="right tag">ROI &lt; 12–18 M-CY</span></div>
+                <div class="muted" style="font-size:10px; margin-top:10px;">
+                  [POTWIERDŹ] MAINNET/EMISJA/SLASHING/INFLACJA PRZED WEJŚCIEM KAPITAŁOWYM.
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="row"><span>ROI EST.</span><span class="right" id="roiEst">18–30 M-CY (HIP)</span></div>
+                <div class="barWrap"><div class="barFill" id="roiBar" style="width:52%"></div><div class="barGrid"></div></div>
+
+                <div class="row" style="margin-top:10px;"><span>PAYOUT VS KOSZT</span><span class="right" id="payoutVsPower2">+0.12x</span></div>
+                <div class="barWrap"><div class="barFill" id="payoutBar2" style="width:55%"></div><div class="barGrid"></div></div>
+
+                <div class="muted" style="font-size:10px; margin-top:10px;">
+                  KILL: 30 DNI BEZ STABILNYCH ZADAŃ LUB PAYOUT &lt; KOSZT.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="t-footer">
+        <div class="kbd">
+          <span>F1</span>HELP
+          <span>F2</span>PROCESY
+          <span>F3</span>SIEĆ
+          <span>F4</span>LOGI
+          <span>F10</span>WYLOGUJ
+        </div>
+        <div>SYSTEM: GENSYN_OLO_OS v0.9 • TOKEN: 0.01 → 0.04 → 0.10</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================
+       INTRO: GRID
+    ========================== */
+    const gridHost = document.getElementById('matrixGrid');
+    for (let i = 0; i < 400; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'grid-cell';
+      gridHost.appendChild(cell);
+    }
+
+    /* =========================
+       INTRO: CURSOR + HUD
+    ========================== */
+    const ring = document.getElementById('cursor-ring');
+    const dot  = document.getElementById('cursor-dot');
+
+    const posX = document.getElementById('pos-x');
+    const posY = document.getElementById('pos-y');
+    const velDisplay = document.getElementById('vel');
+    const stateDisplay = document.getElementById('c-state');
+    const alertDisplay = document.getElementById('alert');
+
+    let mouse = { x: innerWidth / 2, y: innerHeight / 2 };
+    let ringPos = { x: mouse.x, y: mouse.y };
+    let dotPos  = { x: mouse.x, y: mouse.y };
+    let lastMouse = { x: mouse.x, y: mouse.y };
+
+    function pad3(n) {
+      const s = String(Math.max(0, Math.min(999, n)));
+      return s.length === 1 ? "00" + s : s.length === 2 ? "0" + s : s;
+    }
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+
+      if (document.body.classList.contains('mode-intro')) {
+        posX.textContent = pad3(Math.round(mouse.x));
+        posY.textContent = pad3(Math.round(mouse.y));
+
+        const dx = mouse.x - lastMouse.x;
+        const dy = mouse.y - lastMouse.y;
+        const v = Math.sqrt(dx*dx + dy*dy);
+        velDisplay.textContent = v.toFixed(2);
+
+        if (v > 20) {
+          stateDisplay.textContent = "ACTIVE";
+          stateDisplay.style.color = "var(--accent-tertiary)";
+        } else {
+          stateDisplay.textContent = "NEUTRAL";
+          stateDisplay.style.color = "var(--accent-primary)";
+        }
+        alertDisplay.textContent = "NONE";
+        lastMouse = { x: mouse.x, y: mouse.y };
+      }
+    });
+
+    function animateCursor() {
+      ringPos.x += (mouse.x - ringPos.x) * 0.22;
+      ringPos.y += (mouse.y - ringPos.y) * 0.22;
+      ring.style.transform = `translate(${ringPos.x}px, ${ringPos.y}px) translate(-50%, -50%)`;
+
+      dotPos.x += (mouse.x - dotPos.x) * 0.35;
+      dotPos.y += (mouse.y - dotPos.y) * 0.35;
+      dot.style.transform = `translate(${dotPos.x}px, ${dotPos.y}px) translate(-50%, -50%)`;
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    /* =========================
+       INTRO: NAV TYPE ANIM
+    ========================== */
+    const TYPE_MS = 260;
+    function calcSteps(text){
+      const n = Math.max(6, Math.min(32, text.trim().length));
+      return n;
+    }
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const label = item.querySelector('.nav-label');
+      const text = (item.getAttribute('data-label') || label?.textContent || '').trim();
+      if (label) {
+        label.textContent = text;
+        label.style.setProperty('--steps', calcSteps(text));
+      }
+
+      let leaveTimer = null;
+      item.addEventListener('mouseenter', () => {
+        if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
+        item.classList.remove('is-leaving');
+        item.classList.add('is-entering');
+      });
+
+      item.addEventListener('mouseleave', () => {
+        item.classList.remove('is-entering');
+        item.classList.add('is-leaving');
+        leaveTimer = setTimeout(() => item.classList.remove('is-leaving'), TYPE_MS + 60);
+      });
+    });
+
+    /* =========================
+       TERMINAL: CLOCK + EFFECTS
+    ========================== */
+    const pad2 = (n) => String(n).padStart(2,'0');
+    const rnd = (min,max) => Math.random()*(max-min)+min;
+    const irnd = (min,max) => Math.floor(rnd(min,max+1));
+
+    function nowPL(){
+      const d = new Date();
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+    }
+    function nowPLms(){
+      const d = new Date();
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}.${String(d.getMilliseconds()).padStart(3,'0')}`;
+    }
+    function setText(id, txt){
+      const el = document.getElementById(id);
+      if(el) el.textContent = txt;
+    }
+
+    (function buildHex(){
+      let s="";
+      for(let i=0;i<2200;i++) s += Math.floor(Math.random()*16).toString(16);
+      const el = document.getElementById('hexBg');
+      if(el) el.textContent = s;
+    })();
+
+    function renderMatrix(){
+      const matrixEl = document.getElementById('tMatrix');
+      if(!matrixEl) return;
+      let html = "";
+      for(let i=0;i<25;i++){
+        let line = "";
+        for(let j=0;j<60;j++){
+          const r = Math.random();
+          const ch = r>0.9 ? '█' : (r>0.7 ? '▒' : '░');
+          const active = Math.random()>0.98 ? 'active' : '';
+          line += `<span class="${active}">${ch}</span>`;
+        }
+        html += `<div>${line}</div>`;
+      }
+      matrixEl.innerHTML = html;
+    }
+
+    function buildNetBars(){
+      const host = document.getElementById('netBars');
+      if(!host) return;
+      host.innerHTML = '';
+      for(let i=0;i<44;i++){
+        const b = document.createElement('div');
+        b.style.flex = '1';
+        b.style.background = 'var(--t-g)';
+        b.style.opacity = '0.55';
+        b.style.height = `${irnd(8,100)}%`;
+        b.style.transition = 'height 0.25s ease';
+        host.appendChild(b);
+      }
+    }
+
+    /* --- SIMULATION LOGIC --- */
+    const LOG_SYS = [
+      "Allocating VRAM block 0x4F...",
+      "Garbage collection started",
+      "Syncing ledger state [HASH_99]",
+      "Optimizing gradient descent",
+      "Handshake accepted: NODE_88",
+      "Verifying proof of work...",
+      "Job dispatch: BATCH_221",
+      "Flushing memory buffer"
+    ];
+    const LOG_NET = [
+      "Packet loss detected (0.02%)",
+      "Latency spike > 45ms",
+      "P2P connection established",
+      "Re-routing via PEER_04",
+      "Bandwidth throttled: AUTO",
+      "Incoming stream: 12MB/s"
+    ];
+
+    function addLog(id, msgs, type='info'){
+      const el = document.getElementById(id);
+      if(!el) return;
+      const txt = msgs[Math.floor(Math.random()*msgs.length)];
+      const row = document.createElement('div');
+      row.className = 'entry';
+      if(type==='warn') row.classList.add('warn');
+      if(type==='err') row.classList.add('err');
+      row.innerHTML = `<span class="time">[${nowPL()}]</span> ${txt}`;
+      el.insertBefore(row, el.firstChild);
+      if(el.children.length > 8) el.lastElementChild.remove();
+    }
+
+    function simTick(){
+      // CPU/RAM random jitter
+      if(Math.random()>0.4){
+         const c1 = irnd(30,70); document.getElementById('bCpu1').style.width = c1+'%'; document.getElementById('cCpu1').textContent = c1+'%';
+         const c2 = irnd(5,25); document.getElementById('bCpu2').style.width = c2+'%'; document.getElementById('cCpu2').textContent = c2+'%';
+      }
+      
+      // Net bars equalizer
+      const nb = document.getElementById('netBars');
+      if(nb){
+        Array.from(nb.children).forEach(b => {
+           if(Math.random()>0.6) b.style.height = irnd(5,100)+'%';
+        });
+      }
+      
+      // Random Stats
+      if(Math.random()>0.7){
+         document.getElementById('workers').textContent = irnd(1000,1200);
+         document.getElementById('bw').textContent = `UP ${irnd(10,14)}.${irnd(0,9)} / DN ${irnd(120,150)}.${irnd(0,9)}`;
+         document.getElementById('netIO').textContent = `IN ${irnd(110,130)}.${irnd(0,9)} • OUT ${irnd(80,95)}.${irnd(0,9)}`;
+      }
+
+      // Process table update (job_dispatch)
+      const pt = document.getElementById('procTable');
+      if(pt && pt.rows[2]) pt.rows[2].cells[2].textContent = irnd(50,95).toFixed(1)+'%';
+      
+      // Logs
+      if(Math.random()>0.92) addLog('centralLog', LOG_SYS);
+      if(Math.random()>0.92) addLog('omegaLog', LOG_NET, Math.random()>0.8?'warn':'info');
+      if(Math.random()>0.98) addLog('alertLog', ["INTEGRITY CHECK: OK", "PING: MAINNET 12ms", "Verifying..."], 'info');
+    }
+    /* ------------------------ */
+
+    let tIntervals = [];
+    function terminalStart(){
+      renderMatrix();
+      buildNetBars();
+
+      tIntervals.push(setInterval(renderMatrix, 2000));
+      tIntervals.push(setInterval(()=>{
+        setText('nowTime', nowPL());
+        setText('omegaClock', `CZAS: ${nowPL()}`);
+        setText('resClock', nowPLms());
+      }, 200));
+
+      // Start Simulation
+      tIntervals.push(setInterval(simTick, 800));
+    }
+    function terminalStop(){
+      tIntervals.forEach(clearInterval);
+      tIntervals = [];
+    }
+
+    /* =========================
+       TRANSITION: INTRO -> TERMINAL
+       - klik w GENSYN
+       - smooth, + terminal parallax
+    ========================== */
+    const navGensyn = document.getElementById('navGensyn');
+    const backToIntro = document.getElementById('backToIntro');
+    const terminal = document.getElementById('terminalScreen');
+    const tApp = document.getElementById('tApp');
+
+    let inTerminal = false;
+    let par = { x: 0, y: 0, tx: 0, ty: 0 };
+
+    function enterTerminal(){
+      if(inTerminal) return;
+      inTerminal = true;
+
+      terminal.setAttribute('aria-hidden','false');
+      document.body.classList.remove('mode-intro');
+      document.body.classList.add('mode-terminal');
+
+      terminalStart();
+    }
+
+    function exitTerminal(){
+      if(!inTerminal) return;
+      inTerminal = false;
+
+      terminal.setAttribute('aria-hidden','true');
+      document.body.classList.remove('mode-terminal');
+      document.body.classList.add('mode-intro');
+
+      terminalStop();
+      // reset parallax
+      par = { x: 0, y: 0, tx: 0, ty: 0 };
+      if(tApp) tApp.style.transform = 'translate3d(0,0,0)';
+    }
+
+    // click gensyn dot
+    navGensyn.addEventListener('click', enterTerminal);
+
+    // back button
+    backToIntro.addEventListener('click', exitTerminal);
+
+    // ESC + F10 to back
+    window.addEventListener('keydown', (e) => {
+      if(!inTerminal) return;
+      if(e.key === 'Escape') exitTerminal();
+      if(e.key === 'F10') { e.preventDefault(); exitTerminal(); }
+    });
+
+    /* terminal parallax (subtle) */
+    window.addEventListener('mousemove', (e) => {
+      if(!inTerminal || !tApp) return;
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+
+      par.tx = dx * 10; // strength
+      par.ty = dy * 8;
+    });
+
+    function tickParallax(){
+      if(inTerminal && tApp){
+        par.x += (par.tx - par.x) * 0.08;
+        par.y += (par.ty - par.y) * 0.08;
+        tApp.style.transform = `translate3d(${par.x}px, ${par.y}px, 0)`;
+      }
+      requestAnimationFrame(tickParallax);
+    }
+    tickParallax();
+  </script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
