@@ -1,220 +1,231 @@
-import React, { useEffect, useState, useRef } from 'react';
-import MagneticButton from './MagneticButton';
+import React, { useState, useEffect } from 'react';
 
 const Hero: React.FC = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [corpTriggered, setCorpTriggered] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  // Detailed states for the startup sequence
+  const [engineStarted, setEngineStarted] = useState(false);
+  const [lightsOn, setLightsOn] = useState(false);
+  const [wheelsSpinning, setWheelsSpinning] = useState(false);
+  const [isDrivingOff, setIsDrivingOff] = useState(false);
+  const [isReturning, setIsReturning] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const height = containerRef.current.offsetHeight;
-      const progress = Math.max(0, Math.min(1, -rect.top / (height - window.innerHeight)));
-      setScrollProgress(progress);
+  const handleIgnite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (engineStarted || isDrivingOff || isReturning) return;
 
-      if (progress > 0.4 && !corpTriggered) {
-        setCorpTriggered(true);
+    // STEP 1: Exhaust starts
+    setEngineStarted(true);
+
+    // STEP 2: Lights turn on
+    setTimeout(() => {
+      setLightsOn(true);
+    }, 400);
+
+    // STEP 3: Wheels start spinning
+    setTimeout(() => {
+      setWheelsSpinning(true);
+    }, 800);
+
+    // STEP 4: Drive off fast (Acceleration effect)
+    setTimeout(() => {
+      setIsDrivingOff(true);
+    }, 1200);
+
+    // STEP 5: Scroll down after car disappears
+    setTimeout(() => {
+      const bookingSection = document.getElementById('rezerwacja');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth' });
       }
-    };
+    }, 1900);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [corpTriggered]);
+    // STEP 6: Reset and return slowly from left
+    setTimeout(() => {
+      // Snap car to left side instantly (invisible)
+      setIsDrivingOff(false);
+      setIsReturning(true);
+      
+      // Stop engine/lights/spinning for the "parked" look when it stops
+      setEngineStarted(false);
+      setLightsOn(false);
+      setWheelsSpinning(false);
 
-  const jumpTo = (type: 'ind' | 'corp') => {
-    if (!containerRef.current) return;
-    const vh = window.innerHeight;
-    const totalScrollHeight = containerRef.current.offsetHeight - vh;
-    
-    window.scrollTo({
-      top: type === 'ind' ? 0 : totalScrollHeight,
-      behavior: 'smooth'
-    });
+      // Give it a tiny moment to "snap" before starting the slow glide back
+      setTimeout(() => {
+        setIsReturning(false);
+      }, 50);
+    }, 3800);
   };
 
-  const baseSkew = 8;
-  const skewAmplitude = 24; 
-  const dynamicSkew = baseSkew + (Math.sin(scrollProgress * Math.PI) * skewAmplitude);
-  const revealX = 100 - (scrollProgress * 100);
-
-  const FOCUS_BLUR_INTENSITY = 4;
-  const focusFactor = Math.max(0, 1 - Math.abs(scrollProgress - 0.5) / 0.2);
-  const focusBlur = focusFactor * FOCUS_BLUR_INTENSITY;
-
-  const MAX_BLUR = 16;
-  const indBlur = (Math.pow(scrollProgress, 2) * MAX_BLUR) + focusBlur; 
-  const corpBlur = (Math.pow(1 - scrollProgress, 2) * MAX_BLUR) + focusBlur;
-  
-  const hFactor = 1.5;
-  const vFactor = 60;
-  const scaleBase = 1.05;
-  const scaleExpansion = 0.25;
-
-  const isCorporateActive = scrollProgress > 0.5;
-
   return (
-    <section 
-      ref={containerRef} 
-      className="relative w-full h-[300vh] bg-bg-dark"
-    >
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
-        
-        {/* --- LAYER 2: CORPORATE (Dark Side / Spółki) --- */}
-        <div className="absolute inset-0 bg-[#0c0e11] z-10">
-          <div className="absolute inset-0 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" 
-              className="w-full h-full object-cover opacity-30 grayscale"
-              style={{ 
-                transform: `scale(${scaleBase + (1 - scrollProgress) * scaleExpansion}) translate3d(${(1 - scrollProgress) * hFactor}%, ${(scrollProgress - 0.5) * vFactor}px, 0)`, 
-                filter: `brightness(${0.35 + (1 - scrollProgress) * 0.1}) contrast(1.1) blur(${corpBlur}px)`,
-                willChange: 'transform, filter'
-              }}
-              alt="Business Center"
-            />
-          </div>
+    <section className="min-h-0 flex items-end relative overflow-hidden bg-void pt-16 pb-0 border-b border-white/10">
+      
+      {/* 1. Motion Background Layer */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[#080808]"></div>
+        <div className="absolute top-[-20%] right-[-15%] w-[80%] h-[150%] bg-[#101010] skew-x-[-25deg] border-l border-white/5 origin-top"></div>
+        <div className="absolute top-[40%] left-[-10%] w-[120%] h-[2px] bg-gradient-to-r from-transparent via-cyan/20 to-transparent skew-y-[5deg] blur-[2px] animate-pulse-fast"></div>
+        <div className="absolute top-[65%] right-[-20%] w-[100%] h-[6px] bg-gradient-to-l from-transparent via-orange/10 to-transparent skew-y-[-3deg] blur-[4px] animate-pulse"></div>
+      </div>
+
+      <div className="max-w-[1600px] mx-auto w-full px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-end">
           
-          <div className="relative w-full h-full flex items-center justify-end px-[8vw] md:px-[12vw]">
-            <div 
-              className="max-w-[800px] text-right"
-              style={{ 
-                opacity: Math.max(0, (scrollProgress - 0.2) * 2),
-                transform: `translate3d(0, ${(1 - scrollProgress) * 40}px, 0)`
-              }}
-            >
-              <div className={`transition-all duration-1000 ${corpTriggered ? 'animate-reveal-bounce' : 'opacity-0 translate-y-8'}`}>
-                <div className="font-mono text-accent text-[10px] md:text-xs tracking-[0.6em] uppercase mb-4 md:mb-6 opacity-60">Sektor Biznesowy</div>
-                <h2 className="font-display text-[clamp(32px,8vw,46px)] md:text-[clamp(40px,6vw,90px)] leading-[0.9] md:leading-[0.85] text-white uppercase mb-8 md:mb-12">
-                  Skaluj <br/>Swoją <span className="text-accent/80">Spółkę</span>
-                </h2>
+          {/* TEXT ENGINE */}
+          <div className="lg:col-span-5 flex flex-col items-start relative pb-8 lg:pb-12">
+            <div className="inline-flex items-center gap-2 mb-2 border border-techGreen/30 bg-techGreen/dim px-2 py-0.5 skew-x-[-12deg] backdrop-blur-md">
+               <div className="w-1 h-1 bg-techGreen rounded-full animate-ping-slow"></div>
+               <span className="skew-x-[12deg] text-techGreen text-[7px] font-mono font-bold tracking-widest uppercase">
+                 SYSTEM STATUS: FULL AUTONOMY
+               </span>
+            </div>
+            
+            <h1 className="flex flex-col font-black italic uppercase tracking-tighter leading-[0.8] select-none relative z-20">
+              <span className="text-[8vw] lg:text-[5rem] text-transparent bg-clip-text bg-gradient-to-r from-white/20 to-transparent skew-x-[-12deg] translate-x-2 lg:translate-x-4 mix-blend-overlay">
+                CYFROWA
+              </span>
+              <span className="text-xl lg:text-3xl text-white ml-2 lg:ml-8 -my-1 skew-x-[-12deg] relative z-10">
+                ERA
+              </span>
+              <span className="text-[10vw] lg:text-[6rem] text-orange drop-shadow-[0_0_40px_rgba(255,59,0,0.3)] skew-x-[-12deg] -translate-x-1 lg:-translate-x-2 relative z-30">
+                PRESTIŻU
+              </span>
+            </h1>
 
-                {/* TABS (Corporate Context) */}
-                <div className="flex justify-end mb-10 md:mb-16">
-                  <div className="relative inline-flex p-1 bg-white/5 backdrop-blur-md rounded-full border border-white/10 shadow-2xl">
-                    <div 
-                      className="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-accent rounded-full transition-all duration-700 ease-custom shadow-[0_0_15px_rgba(212,175,55,0.4)]"
-                      style={{ left: isCorporateActive ? 'calc(50% + 2px)' : '4px' }}
-                    />
-                    <button onClick={() => jumpTo('ind')} className="relative z-10 px-6 py-2.5 font-mono text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Indywidualni</button>
-                    <button className="relative z-10 px-6 py-2.5 font-mono text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white font-bold">Spółki</button>
-                  </div>
-                </div>
+            <div className="mt-3 max-w-sm skew-x-[-12deg] ml-2 lg:ml-4">
+              <p className="text-xs lg:text-sm text-gray-400 font-medium italic border-l border-cyan pl-3 skew-x-[12deg] leading-relaxed">
+                Klucz jest w kodzie. Bez biur, bez kolejek, pełna kontrola w Twoim smartfonie. Czysty flow premium.
+              </p>
+            </div>
 
-                {/* FIXED DETALS - IMPROVED AESTHETICS */}
-                <div className="text-white/40 font-mono text-[9px] md:text-[13px] tracking-[0.2em] md:tracking-[0.4em] uppercase">
-                  <span className="inline-block py-2 border-b border-white/5">
-                    SPÓŁKI Z O.O. <span className="mx-2 md:mx-4 opacity-30 text-accent">•</span> S.A. <span className="mx-2 md:mx-4 opacity-30 text-accent">•</span> HOLDINGI
-                  </span>
-                </div>
-              </div>
+            <div className="mt-4 ml-2 lg:ml-4 flex flex-col sm:flex-row gap-4 skew-x-[-12deg] relative z-40">
+               <button 
+                  onClick={handleIgnite}
+                  disabled={engineStarted || isDrivingOff || isReturning}
+                  className={`btn-ignite px-3 py-1.5 text-[9px] tracking-[0.15em] hover:scale-105 transition-all flex items-center gap-2 group shadow-[2px_2px_0px_rgba(0,0,0,0.5)] ${engineStarted ? 'opacity-50 grayscale' : ''}`}
+               >
+                  <span className="skew-x-[12deg] font-black italic">ODPAL SILNIK</span>
+                  <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-black border-b-[3px] border-b-transparent skew-x-[12deg] group-hover:translate-x-1 transition-transform duration-300"></div>
+               </button>
             </div>
           </div>
-        </div>
 
-        {/* --- LAYER 1: INDIVIDUAL (Light Side / Indywidualni) --- */}
-        <div 
-          className="absolute inset-0 z-20 bg-bg-light transition-all duration-75 ease-out"
-          style={{ 
-            clipPath: `polygon(0 0, ${revealX + dynamicSkew}% 0, ${revealX - dynamicSkew}% 100%, 0 100%)`,
-          }}
-        >
-          <div className="absolute inset-0 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" 
-              className="w-full h-full object-cover opacity-20"
-              style={{ 
-                transform: `scale(${scaleBase + scrollProgress * scaleExpansion}) translate3d(${scrollProgress * hFactor}%, ${(scrollProgress - 0.5) * -vFactor}px, 0)`,
-                filter: `brightness(${0.85 - scrollProgress * 0.2}) contrast(1.05) blur(${indBlur}px)`,
-                willChange: 'transform, filter'
-              }}
-              alt="Modern Living"
-            />
-          </div>
-          
-          <div className="relative w-full h-full flex items-center px-[8vw] md:px-[12vw]">
-            <div 
-              className="max-w-[800px]"
-              style={{ 
-                opacity: 1 - scrollProgress * 1.5,
-                transform: `translate3d(${-scrollProgress * 60}px, 0, 0)`
-              }}
-            >
-              <div className="opacity-0 animate-reveal-bounce" style={{ animationDelay: '2.1s' }}>
-                <div className="font-mono text-text-dark/40 text-[10px] md:text-xs tracking-[0.6em] uppercase mb-4 md:mb-6">Sektor Prywatny</div>
-                <h1 className="font-display text-[clamp(32px,8vw,46px)] md:text-[clamp(40px,6vw,90px)] leading-[0.9] md:leading-[0.85] text-text-dark uppercase mb-8 md:mb-12">
-                  Zabezpiecz <br/>Swój <span className="text-text-dark/30">Kapitał</span>
-                </h1>
+          {/* VISUAL ENGINE - Aligned to bottom */}
+          <div className="lg:col-span-7 relative h-[180px] lg:h-[400px] flex items-end justify-center lg:justify-end pointer-events-none overflow-visible">
+            
+            <div className="absolute right-[-20%] bottom-0 w-[120vw] h-[250px] bg-gradient-to-t from-orange/5 to-transparent blur-3xl mix-blend-screen"></div>
 
-                {/* TABS (Individual Context) */}
-                <div className="flex justify-start mb-10 md:mb-16">
-                  <div className="relative inline-flex p-1 bg-black/5 backdrop-blur-md rounded-full border border-black/10 shadow-lg">
-                    <div 
-                      className="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-text-dark rounded-full transition-all duration-700 ease-custom"
-                      style={{ left: isCorporateActive ? 'calc(50% + 2px)' : '4px' }}
-                    />
-                    <button className="relative z-10 px-6 py-2.5 font-mono text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white font-bold">Indywidualni</button>
-                    <button onClick={() => jumpTo('corp')} className="relative z-10 px-6 py-2.5 font-mono text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-text-dark/40 hover:text-text-dark transition-colors">Spółki</button>
-                  </div>
-                </div>
+            {/* Container for the car with dynamic transition timings */}
+            <div className={`w-full lg:w-[110%] h-full flex items-end transition-all
+              ${isDrivingOff 
+                ? 'translate-x-[150%] opacity-0 scale-105 duration-[800ms] ease-in' 
+                : isReturning 
+                  ? '-translate-x-[150%] opacity-0 duration-0' 
+                  : 'translate-x-0 opacity-100 scale-100 duration-[2000ms] ease-out'}
+            `}>
+              <svg viewBox="0 0 800 350" className="w-full h-full drop-shadow-[10px_10px_30px_rgba(0,0,0,0.5)] z-10 overflow-visible">
+                <defs>
+                  <linearGradient id="heroCarBody" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#ff2a00" />
+                    <stop offset="100%" stopColor="#cc2200" />
+                  </linearGradient>
+                  <linearGradient id="heroGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#000" stopOpacity="0.9" />
+                  </linearGradient>
+                  <linearGradient id="headlightBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#fff" stopOpacity="0.6" />
+                    <stop offset="100%" stopColor="#00f0ff" stopOpacity="0" />
+                  </linearGradient>
+                  <linearGradient id="exhaustFlame" x1="100%" y1="0%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#FF3B00" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#FF9000" stopOpacity="0" />
+                  </linearGradient>
+                  <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="50%" stopColor="#222" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </linearGradient>
+                  <filter id="motionBlurX">
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="10,0" />
+                  </filter>
+                </defs>
+                
+                <style>{`
+                  @keyframes rush {
+                    0% { stroke-dashoffset: 400; opacity: 0; }
+                    20% { opacity: 0.8; }
+                    100% { stroke-dashoffset: -400; opacity: 0; }
+                  }
+                  @keyframes flicker {
+                     0%, 100% { opacity: 0.8; transform: scaleX(1); }
+                     50% { opacity: 0.4; transform: scaleX(0.9); }
+                  }
+                  .animate-rush { animation: rush 0.6s linear infinite; }
+                  .animate-exhaust {
+                    animation: flicker 0.1s steps(4) infinite;
+                    transform-origin: right center;
+                    transform-box: fill-box;
+                  }
+                `}</style>
 
-                {/* FIXED DETALS - IMPROVED AESTHETICS */}
-                <div className="text-text-dark/50 font-mono text-[9px] md:text-[13px] tracking-[0.2em] md:tracking-[0.4em] uppercase">
-                  <span className="inline-block py-2 border-b border-black/5">
-                    JDG <span className="mx-2 md:mx-4 opacity-20">|</span> B2B <span className="mx-2 md:mx-4 opacity-20">|</span> ETAT <span className="mx-2 md:mx-4 opacity-20">|</span> KONTRAKT
-                  </span>
-                </div>
-              </div>
+                {/* Road Line - Perfectly aligned under the wheels (cy=255 + y_offset=45 = 300) */}
+                <path d="M-500,300 L1300,300" stroke="url(#roadGrad)" strokeWidth="2" strokeDasharray="20 10" opacity="0.6" />
+
+                {/* Speed Trails - only visible when moving off */}
+                {isDrivingOff && (
+                  <g opacity="0.6">
+                    <path d="M-400,280 L50,280" stroke="#FF3B00" strokeWidth="3" filter="url(#motionBlurX)" className="animate-rush" strokeDasharray="50 350" />
+                    <path d="M-300,310 L100,310" stroke="#00F0FF" strokeWidth="2" filter="url(#motionBlurX)" className="animate-rush" style={{animationDelay: '0.1s'}} strokeDasharray="100 200" />
+                  </g>
+                )}
+
+                <g transform="translate(50, 45)">
+                   {/* Afterburner */}
+                   {engineStarted && (
+                     <g>
+                       <path d="M50,240 L-15,245 L50,250 Z" fill="url(#exhaustFlame)" className="animate-exhaust" />
+                       <path d="M50,240 L-30,235 L50,255 Z" fill="url(#exhaustFlame)" opacity="0.2" className="animate-exhaust" style={{animationDelay: '0.05s'}} />
+                     </g>
+                   )}
+                   
+                   {/* Headlights */}
+                   {lightsOn && (
+                     <g>
+                       <path d="M680,230 L950,180 L950,320 Z" fill="url(#headlightBeam)" opacity="0.4" />
+                       <circle cx="670" cy="245" r="4" fill="#fff" className="animate-pulse" style={{filter: 'blur(1.5px)'}} />
+                     </g>
+                   )}
+
+                   {/* Wheels - cy=255 + translate(y=45) = 300. Matches road line exactly. */}
+                   <g>
+                     <circle cx="150" cy="255" r="44" fill="#111" stroke="#222" strokeWidth="1.5" />
+                     <circle 
+                        cx="150" cy="255" r="38" 
+                        fill="none" stroke="#FF3B00" strokeWidth="2" 
+                        strokeDasharray="40 20" opacity="0.5" 
+                        className={wheelsSpinning ? "animate-spin" : ""} 
+                        style={{ animationDuration: '0.2s', transformBox: 'fill-box', transformOrigin: 'center' }} 
+                      />
+
+                     <circle cx="550" cy="255" r="44" fill="#111" stroke="#222" strokeWidth="1.5" />
+                     <circle 
+                        cx="550" cy="255" r="38" 
+                        fill="none" stroke="#FF3B00" strokeWidth="2" 
+                        strokeDasharray="40 20" opacity="0.5" 
+                        className={wheelsSpinning ? "animate-spin" : ""} 
+                        style={{ animationDuration: '0.2s', transformBox: 'fill-box', transformOrigin: 'center' }} 
+                      />
+                   </g>
+
+                   {/* Chassis */}
+                   <path d="M50,250 Q40,205 130,185 L280,155 L500,160 L650,205 L680,245 L650,265 L140,265 Z" fill="url(#heroCarBody)" />
+                   
+                   {/* Cockpit */}
+                   <path d="M290,160 L480,163 L520,205 L250,205 Z" fill="url(#heroGlass)" />
+                </g>
+              </svg>
             </div>
           </div>
-        </div>
-
-        {/* --- LOGO --- */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 z-50 mix-difference pointer-events-none w-full text-center">
-          <div className="flex flex-col items-center">
-            <div className="font-display font-bold text-white tracking-[-0.04em] uppercase text-[32px] md:text-[56px] leading-none mb-2">
-              MTG <span className="text-accent/90">GROUP</span>
-            </div>
-            <div className="font-mono text-[9px] md:text-[13px] tracking-[0.7em] text-white/50 uppercase">
-              Financial Capital Strategy
-            </div>
-          </div>
-        </div>
-
-        {/* --- CENTRAL DIVIDER --- */}
-        <div 
-          className="absolute top-0 bottom-0 w-[2px] bg-accent/40 z-30 pointer-events-none shadow-[0_0_25px_rgba(212,175,55,0.2)]"
-          style={{ 
-            left: `${revealX}%`, 
-            transform: `translateX(-50%) skewX(${-dynamicSkew}deg)`,
-            opacity: scrollProgress > 0.02 && scrollProgress < 0.98 ? 1 : 0
-          }}
-        />
-
-        {/* --- INTERFACE --- */}
-        <div className="absolute bottom-10 left-[8vw] right-[8vw] z-40 flex justify-between items-center mix-difference text-white/40 font-mono text-[9px] md:text-[11px] uppercase tracking-[0.3em]">
-           <button 
-             onClick={() => jumpTo('ind')}
-             className={`flex items-center gap-4 transition-all duration-500 hover:text-white ${!isCorporateActive ? 'text-white translate-x-0' : 'opacity-30 -translate-x-4'}`}
-           >
-              <span className="w-8 h-px bg-current" />
-              01 / INDYWIDUALNI
-           </button>
-           
-           <div className="hidden md:block">
-              <div className="w-40 h-[1px] bg-white/10 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-accent transition-transform duration-100" style={{ transform: `translateX(${(scrollProgress - 0.5) * 200}%)` }} />
-              </div>
-           </div>
-
-           <button 
-             onClick={() => jumpTo('corp')}
-             className={`flex items-center gap-4 transition-all duration-500 hover:text-white ${isCorporateActive ? 'text-white translate-x-0' : 'opacity-30 translate-x-4'}`}
-           >
-              02 / SPÓŁKI
-              <span className="w-8 h-px bg-current" />
-           </button>
         </div>
       </div>
     </section>

@@ -1,51 +1,40 @@
-import React, { useEffect } from 'react';
-import Preloader from './components/Preloader';
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import ScrollBadge from './components/ScrollBadge';
-import Services from './components/Services';
+import Stats from './components/Stats';
+import Fleet from './components/Fleet';
+import ChargingInfrastructure from './components/ChargingInfrastructure';
 import Process from './components/Process';
+import Booking from './components/Booking';
+import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
+import MotionBackground from './components/MotionBackground';
+import MobileNav from './components/MobileNav';
 
-function App() {
-  useEffect(() => {
-    // Initialize Lenis from global window object (loaded via CDN)
-    if (window.Lenis) {
-      const lenis = new window.Lenis({
-        duration: 1.2,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        // @ts-ignore
-        smooth: true,
-        touchMultiplier: 2
-      });
-
-      const raf = (time: number) => {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      };
-
-      requestAnimationFrame(raf);
-
-      return () => {
-        lenis.destroy();
-      };
-    }
-  }, []);
+export default function App() {
+  const [isPluggedIn, setIsPluggedIn] = useState(false);
 
   return (
-    <>
-      <div className="noise-overlay" />
-      <Preloader />
+    <div className="relative">
+      <a className="skip-link" href="#main">Przejdź do treści</a>
       
-      <main className="relative w-full">
+      <MotionBackground />
+      <Navbar />
+
+      <main id="main">
+        <div id="top" className="h-0" />
         <Hero />
-        <ScrollBadge />
-        <Services />
+        <Stats />
+        <Fleet />
+        <ChargingInfrastructure onConnectChange={setIsPluggedIn} />
         <Process />
+        <Booking isPluggedIn={isPluggedIn} />
+        <FinalCTA />
       </main>
 
       <Footer />
-    </>
+      
+      <MobileNav />
+    </div>
   );
 }
-
-export default App;

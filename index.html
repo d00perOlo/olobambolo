@@ -1,851 +1,196 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>INTERACTIV OLO DASH</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;500;700&family=Fira+Code:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="OloSiTiRENT — nowoczesny wynajem aut: szybka rezerwacja, minimum formalności, maksymalna mobilność." />
+  <title>OloSiTiRENT | Adrenaline Mobility</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,800;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            // BASE: Premium Depth (Graphite Scale)
+            void: '#050505',
+            graphite: {
+              900: '#0A0A0A', // Deep Section BG
+              800: '#121212', // Card Surface
+              700: '#1C1C1C', // Hover/Input
+              600: '#2A2A2A', // Border/Divider
+              DEFAULT: '#121212',
+            },
+            // ACTION: Acceleration (Orange)
+            orange: {
+              DEFAULT: '#FF3B00', // Hyper Orange
+              glow: '#FF5500',
+            },
+            // TECH: Navigation (Cyan)
+            cyan: {
+              DEFAULT: '#00F0FF', 
+              dim: 'rgba(0, 240, 255, 0.3)',
+            },
+            // INFO: System Status (Cold Green) - 1-3% usage ONLY
+            techGreen: {
+              DEFAULT: '#00FF94', 
+              dim: 'rgba(0, 255, 148, 0.1)',
+            },
+            white: '#ffffff',
+          },
+          animation: {
+            'warp': 'warp 0.5s linear infinite',
+            'warp-slow': 'warp 2s linear infinite',
+            'slide-up': 'slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+            'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'ping-slow': 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
+          },
+          keyframes: {
+            warp: {
+              '0%': { transform: 'translateX(-100vw) skewX(-45deg)' },
+              '100%': { transform: 'translateX(100vw) skewX(-45deg)' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root{
-      --bg-color:#050505;
-      --accent-primary:#00f2ff;
-      --accent-secondary:#3a59ff;
-      --accent-tertiary:#7000ff;
-
-      --text-main:#e0e0e0;
-      --alert-red:#ff003c;
-
-      --glass-border: rgba(255,255,255,0.12);
-      --hud-bg: rgba(0,0,0,0.82);
-
-      --label-bg: rgba(0,0,0,0.72);
-      --label-radius: 12px;
-      --type-ms: 260ms;
-
-      --dot-size: 10px;
-      --dot-hit: 30px;
-      --dot-gap: 1.4rem;
-      --label-gap: 44px;
-
-      --olo-orange: #ff8a1f;
-
-      /* cursor */
-      --cursor-ring: 34px;
-      --cursor-dot: 14px;
-
-      /* terminal palette (scoped usage) */
-      --t-bg:#050505;
-      --t-g:#00ff41;
-      --t-gDim:#003b11;
-      --t-gGlow:0 0 10px rgba(0,255,65,.45);
-
-      --t-r:#ff003c;
-      --t-rDim:#550014;
-      --t-rGlow:0 0 14px rgba(255,0,60,.35);
-
-      --t-crtA: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,.25) 50%),
-               linear-gradient(90deg, rgba(255,0,0,.06), rgba(0,255,0,.02), rgba(0,0,255,.06));
-      --t-grid-gap:14px;
-    }
-
-    /* MODE SWITCH */
-    html,body{height:100%; background:var(--bg-color); color:var(--text-main); overflow:hidden; margin:0; padding:0;}
-    body{font-family:'Inter',sans-serif;}
-    body.mode-intro *{ cursor:none!important; }
-    body.mode-terminal{ cursor:crosshair; }
-
-    /* Utility */
-    .mobile-only { display: none; }
-
-    /* =========================
-       INTRO LAYER
-    ========================== */
-    #introScreen{
-      position:fixed; inset:0;
-      z-index:10;
-      opacity:1;
-      transform:translateZ(0);
-      transition: opacity .45s ease, transform .55s cubic-bezier(.2,.9,.2,1), filter .45s ease;
-      will-change: opacity, transform, filter;
-    }
-    body.mode-terminal #introScreen{
-      opacity:0;
-      transform: translateY(10px) scale(0.985);
-      filter: blur(6px);
-      pointer-events:none;
-    }
-
-    /* GRID */
-    .matrix-grid{
-      position:fixed;inset:0;
-      display:grid;
-      grid-template-columns:repeat(20,1fr);
-      grid-template-rows:repeat(20,1fr);
-      opacity:.10;
-      pointer-events:none;
-      z-index:0;
-    }
-    .grid-cell{border:.5px solid rgba(255,255,255,.1)}
-    .vignette{
-      position:fixed;inset:0;
-      background:radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.75) 100%);
-      pointer-events:none;
-      z-index:1;
-    }
-
-    /* HERO - REPOSITIONED TO TOP */
-    .intro{
-      position:fixed;inset:0;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start; /* Przeniesienie na górę */
-      z-index:2;
-      padding:2rem;
-    }
-    .hero{
-      text-align:center;
-      user-select:none;
-      margin-top: 8vh; /* Odstęp od górnej krawędzi, aby być nad kropkami */
-    }
-
-    .hero-title{
-      font-family:'JetBrains Mono', monospace;
-      font-size:clamp(2.5rem, 10vw, 6rem);
-      text-transform:uppercase;
-      font-weight:700;
-      letter-spacing:-1px;
-      line-height:1.1;
-      background:linear-gradient(90deg,
-        #ffffff 0%,
-        #c9ffff 22%,
-        var(--accent-primary) 48%,
-        var(--accent-secondary) 72%,
-        var(--accent-tertiary) 100%
-      );
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      display:block;
-      filter:none;
-    }
-
-    .hero-internal {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      color: #999;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      opacity: 0.6;
-      margin-top: 1.2rem;
-      font-weight: 500;
-    }
-
-    /* ACTIVE MODULES SECTION */
-    .modules-section {
-      margin-top: 3.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      text-align: left;
-      display: inline-block;
-      font-size: 0.95rem;
-      letter-spacing: 1px;
-    }
-    .modules-title {
-      color: #777;
-      margin-bottom: 0.8rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    .module-item {
-      display: block;
-      margin-bottom: 6px;
-      white-space: pre;
-      color: #ffffff;
-    }
-    .status-online { color: var(--t-g); text-shadow: var(--t-gGlow); }
-    .status-standby { color: #ffcc00; text-shadow: 0 0 8px rgba(255, 204, 0, 0.4); }
-    .status-locked { color: var(--t-r); text-shadow: var(--t-rGlow); }
-
-    /* LOG TICKER (ABOVE FOOTER) */
-    .log-ticker {
-      position: fixed;
-      bottom: 1.6rem; /* Zbliżone do ostrzeżenia na samym dole */
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      color: rgba(0, 255, 65, 0.4);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      z-index: 2;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      white-space: nowrap;
-    }
-
-    /* BOTTOM TEXT (CURSOR HINT / FOOTER) */
-    .cursor-hint{
-      position:fixed;
-      bottom: 0.5rem; /* Na samym dole */
-      left:50%;
-      transform:translateX(-50%);
-      font-family:'JetBrains Mono',monospace;
-      z-index:2;
-      user-select:none;
-      text-align:center;
-      padding:0 1rem;
-      color: var(--alert-red);
-      font-size: 0.62rem;
-      opacity: 0.5;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    /* HUD */
-    .stats-container{
-      position:fixed;
-      bottom:2rem;left:2rem;
-      font-family:'JetBrains Mono',monospace;
-      font-size:.75rem;
-      z-index:3;
-      display:flex;
-      flex-direction:column;
-      gap:.5rem;
-      background:var(--hud-bg);
-      padding:1rem;
-      border-left:2px solid var(--accent-primary);
-      min-width:255px;
-      user-select:none;
-    }
-    .stats-container .label{color:#bbb}
-    .stats-container .value{color:var(--accent-primary)}
-    .stats-container .value.dim{color:#999}
-    .stats-container .spacer-top{margin-top:.35rem}
-
-    /* NAV - CENTERED AS BEFORE */
-    .nav-sidebar{
-      position:fixed;
-      right:2rem;
-      top:50%;
-      transform:translateY(-50%);
-      display:flex;
-      flex-direction:column;
-      gap:var(--dot-gap);
-      z-index:6;
-      user-select:none;
-      overflow:visible;
-      transition: opacity .35s ease, transform .45s cubic-bezier(.2,.9,.2,1), filter .35s ease;
-      will-change: opacity, transform, filter;
-    }
-    body.mode-terminal .nav-sidebar{
-      opacity:0;
-      transform: translateY(-50%) translateX(12px);
-      filter: blur(4px);
-      pointer-events:none;
-    }
-
-    .nav-item{
-      position:relative;
-      width: var(--dot-hit);
-      height: var(--dot-hit);
-      cursor: pointer;
-    }
-    .nav-dot{
-      position:absolute;
-      right:0;
-      top:50%;
-      transform:translateY(-50%);
-      width:var(--dot-size);
-      height:var(--dot-size);
-      border-radius:50%;
-      background:rgba(255,255,255,0.18);
-      z-index: 20;
-      transition: transform .18s ease, background .18s ease;
-    }
-    .nav-item:hover .nav-dot {
-      background: var(--accent-primary);
-      transform: translateY(-50%) scale(1.3);
-      box-shadow: 0 0 10px var(--accent-primary);
-    }
-
-    .nav-label {
-      position:absolute;
-      right: var(--label-gap);
-      top:50%;
-      transform:translateY(-50%);
-      font-family:'JetBrains Mono',monospace;
-      font-size:.72rem;
-      color:#e6e6e6;
-      padding:.38rem .60rem;
-      border-radius:var(--label-radius);
-      border:1px solid var(--glass-border);
-      background:var(--label-bg);
-      backdrop-filter:blur(8px);
-      white-space:nowrap;
-      pointer-events:none;
-      opacity:0;
-      transition: opacity 0.2s ease;
-    }
-    .nav-item:hover .nav-label {
-      opacity: 1;
-    }
-
-    /* CURSOR */
-    #cursor-ring{
-      position:fixed;top:0;left:0;
-      width:var(--cursor-ring);height:var(--cursor-ring);
-      border:1px solid rgba(0,242,255,0.70);
-      border-radius:999px;
-      pointer-events:none;
-      z-index:9999;
-      transform:translate(-50%,-50%);
-      box-shadow: 0 0 14px rgba(0,242,255,0.12);
-      opacity:1;
-    }
-    #cursor-dot{
-      position:fixed;top:0;left:0;
-      width:var(--cursor-dot);height:var(--cursor-dot);
-      border-radius:999px;
-      background:#ffffff;
-      pointer-events:none;
-      z-index:10000;
-      transform:translate(-50%,-50%);
-      mix-blend-mode:difference;
-    }
-    body.mode-terminal #cursor-ring,
-    body.mode-terminal #cursor-dot{ opacity:0; }
-
-    /* =========================
-       TERMINAL LAYER
-    ========================== */
-    #terminalScreen{
-      position:fixed; inset:0;
-      z-index:20;
-      opacity:0;
-      pointer-events:none;
-      background:var(--t-bg);
-      transition: opacity .4s ease;
-    }
-    body.mode-terminal #terminalScreen{
-      opacity:1;
-      pointer-events:auto;
-    }
-    .terminal-overlay::before{
-      content:"";
-      position:fixed; inset:0;
-      background:var(--t-crtA);
-      background-size:100% 4px, 3px 100%;
-      pointer-events:none;
-      z-index:9999;
-      opacity:.4;
-    }
-
-    .t-app{
-      height:100%;
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      gap:15px;
-      color:var(--t-g);
-      font-family:'Fira Code', monospace;
-    }
-    .t-topbar{
-      border:1px solid var(--t-gDim);
-      padding:15px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
+    :root {
+      --orange: #FF3B00;
+      --cyan: #00F0FF;
+      --green: #00FF94;
+      --graphite-900: #0A0A0A;
+      --graphite-800: #121212;
+      --graphite-700: #1C1C1C;
     }
     
-    .t-meta-info {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+    body {
+      background-color: #050505;
+      color: #fff;
+      overflow-x: hidden;
     }
 
-    #critFlag {
-      background: rgba(255, 0, 60, 0.15);
-      color: var(--t-r);
-      border: 1px solid var(--t-r);
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      animation: blink-danger 0.6s infinite;
-      box-shadow: var(--t-rGlow);
+    /* Graphite Texture */
+    .bg-carbon {
+        background-color: var(--graphite-800);
+        background-image: linear-gradient(45deg, #161616 25%, transparent 25%, transparent 75%, #161616 75%, #161616), 
+        linear-gradient(45deg, #161616 25%, transparent 25%, transparent 75%, #161616 75%, #161616);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
     }
 
-    @keyframes blink-danger {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.98); }
+    /* Speed Card - Graphite Surface */
+    .speed-card {
+      background: linear-gradient(135deg, var(--graphite-700) 0%, var(--graphite-800) 100%);
+      border: 1px solid #333;
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: skewX(-10deg);
+    }
+    
+    /* Unskew content */
+    .speed-card > * {
+      transform: skewX(10deg);
     }
 
-    .backBtn{
-      background:rgba(0,255,65,0.1);
-      border:1px solid var(--t-g);
-      color:var(--t-g);
-      padding:8px 15px;
-      cursor:pointer;
-      font-family: inherit;
-      text-transform: uppercase;
-      font-size: 12px;
+    .speed-card:hover {
+      border-color: var(--orange);
+      box-shadow: -8px 8px 0px rgba(255, 59, 0, 0.15);
+      transform: skewX(-10deg) translate(-4px, -4px);
     }
-    .backBtn:hover{
-      background: var(--t-g);
+    
+    .speed-card:hover .tech-line {
+        width: 100%;
+        background: var(--orange);
+    }
+
+    /* Primary Action Trigger (Orange) */
+    .btn-ignite {
+      background: var(--orange);
       color: #000;
-    }
-
-    .t-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 15px;
-      flex-grow: 1;
-    }
-    .t-panel {
-      border: 1px solid var(--t-gDim);
-      background: rgba(0, 20, 5, 0.4);
-      padding: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-style: italic;
+      clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
       position: relative;
       overflow: hidden;
     }
-    .t-panel.red { border-color: var(--t-rDim); color: var(--t-r); }
-    .ptitle {
-      font-size: 10px;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-      opacity: 0.6;
+    
+    .btn-ignite::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+        transition: 0.4s;
+    }
+    
+    .btn-ignite:hover {
+      background: #fff;
+      padding-right: 2rem;
+      box-shadow: 0 0 30px rgba(255, 59, 0, 0.6);
+    }
+    
+    .btn-ignite:hover::after {
+        left: 100%;
     }
 
-    .log {
-      font-size: 11px;
-      height: calc(100% - 25px);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    /* Input Fields - Graphite Integration */
+    .input-speed {
+      background: var(--graphite-800);
+      border-bottom: 2px solid #333;
+      color: white;
+      font-style: italic;
+      font-weight: 700;
+      transition: all 0.3s;
+      border-radius: 0;
     }
-    .log::-webkit-scrollbar { width: 4px; }
-    .log::-webkit-scrollbar-thumb { background: var(--t-gDim); }
-
-    .log-entry {
-      animation: log-fade-in 0.35s ease-out;
-      line-height: 1.4;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-    @keyframes log-fade-in {
-      from { opacity: 0; transform: translateX(-8px); }
-      to { opacity: 1; transform: translateX(0); }
+    .input-speed:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: var(--graphite-700);
     }
 
-    .log-time { opacity: 0.45; font-size: 0.85em; margin-right: 6px; }
-    .log-info { color: var(--t-g); }
-    .log-warn { color: #ffcc00; text-shadow: 0 0 5px rgba(255, 204, 0, 0.3); }
-    .log-crit { color: var(--t-r); font-weight: 700; text-shadow: var(--t-rGlow); }
-    .log-net { color: var(--accent-primary); }
-
-    .matrix-box {
-      height: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: center;
-      justify-content: center;
-      font-size: 10px;
-      color: var(--t-gDim);
-      word-break: break-all;
-      line-height: 1.2;
-      overflow: hidden;
+    /* Utilities */
+    .text-outline {
+      -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+      color: transparent;
     }
-
-    .matrix-char {
-      display: inline-block;
-      width: 8px;
-      text-align: center;
-      transition: none; /* Usunięto przejścia dla surowego wyglądu */
-    }
-
-    /* Usunięto efekty glow i animację dla sekcji Matrix w terminalu */
-    .matrix-char.glow {
-      color: var(--t-g); /* Zwykły zielony kolor bez blasku */
-      font-weight: 400;
-      text-shadow: none;
-      filter: none;
-      transform: none;
-      animation: none;
-    }
-
-    .net-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-      height: 40px;
-      margin-top: 15px;
-      border-bottom: 1px solid var(--t-gDim);
-      padding-bottom: 2px;
-    }
-    .net-bar {
-      flex: 1;
-      background: var(--t-g);
-      box-shadow: 0 0 5px var(--t-g);
-      transition: height 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      min-height: 4px;
-    }
-
-    /* =========================
-       MOBILE REFINEMENTS
-    ========================== */
-    @media (max-width: 640px) {
-      :root {
-        --dot-size: 12px;
-        --dot-hit: 44px;
-        --dot-gap: 1.8rem;
-      }
-      
-      .mobile-only { display: block; }
-      
-      .vignette {
-        background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.6) 100%);
-      }
-
-      .hero-title { 
-        font-size: clamp(2.4rem, 12vw, 4rem); 
-        line-height: 1;
-      }
-      .hero-internal { 
-        font-size: 10px; 
-        letter-spacing: 3px; 
-        margin-top: 0.8rem;
-      }
-
-      .hero {
-        margin-top: 12vh; /* Większy margines na mobile, aby nagłówek był wyżej */
-      }
-
-      .modules-section { 
-        position: fixed;
-        bottom: 2.8rem; 
-        left: 1.2rem;
-        margin-top: 0;
-        width: auto;
-        text-align: left;
-        font-size: 0.45rem; 
-        z-index: 5;
-        border-left: 1px solid var(--accent-primary);
-        padding-left: 8px;
-        opacity: 0.9;
-      }
-      .modules-title {
-        margin-bottom: 0.4rem;
-        font-size: 0.4rem;
-        letter-spacing: 2px;
-      }
-      .module-item {
-        margin-bottom: 3px;
-        white-space: pre;
-      }
-
-      .nav-sidebar {
-        right: 1.2rem;
-        bottom: 25%;
-        top: auto;
-        transform: none;
-        gap: var(--dot-gap);
-      }
-      .nav-dot {
-        width: var(--dot-size);
-        height: var(--dot-size);
-        background: rgba(255,255,255,0.35);
-      }
-      .nav-label {
-        right: 50px;
-        font-size: 0.65rem;
-      }
-
-      .log-ticker { 
-        bottom: 1.4rem; 
-        font-size: 0.52rem; 
-        width: 80%;
-        text-align: center;
-      }
-
-      .cursor-hint { 
-        width: 90%; 
-        bottom: 0.5rem; 
-        font-size: 0.55rem;
-      }
-
-      .stats-container { display: none; }
-      #cursor-ring, #cursor-dot { display: none; }
-
-      .t-app { padding: 12px; gap: 10px; }
-      .t-topbar {
-        padding: 10px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-      }
-      .t-meta-info {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-      }
-      .t-grid { 
-        grid-template-columns: 1fr; 
-        grid-template-rows: auto; 
-        gap: 10px;
-        overflow-y: auto;
-      }
-      .t-panel { padding: 12px; min-height: 120px; }
-    }
-
-    @media (pointer: coarse) {
-      #cursor-ring, #cursor-dot { display: none !important; }
-      body.mode-intro * { cursor: default !important; }
-    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050505; }
+    ::-webkit-scrollbar-thumb { background: #333; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
   </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
 <link rel="stylesheet" href="/index.css">
 </head>
-
-<body class="mode-intro">
-  <div id="cursor-ring"></div>
-  <div id="cursor-dot"></div>
-
-  <div id="introScreen">
-    <div class="matrix-grid" id="matrixGrid"></div>
-    <div class="vignette"></div>
-
-    <div class="stats-container">
-      <div><span class="label">COORD:</span> <span class="value"><span id="pos-x">000</span>|<span id="pos-y">000</span></span></div>
-      <div><span class="label">MOTION:</span> <span class="value" id="vel">0.00</span></div>
-      <div><span class="label">STATUS:</span> <span class="value" id="c-state">NEUTRAL</span></div>
-      <div><span class="label">ALERT:</span> <span class="value dim" id="alert">NONE</span></div>
-    </div>
-
-    <div class="nav-sidebar">
-      <div class="nav-item" data-label="MILVITA"><span class="nav-label">MILVITA</span><span class="nav-dot"></span></div>
-      <div class="nav-item" data-label="ALGORYTM DICE"><span class="nav-label">ALGORYTM DICE</span><span class="nav-dot"></span></div>
-      <div class="nav-item" data-label="GENSYN" id="navGensyn"><span class="nav-label">GENSYN</span><span class="nav-dot"></span></div>
-      <div class="nav-item" data-label="WEB/APP"><span class="nav-label">WEB/APP</span><span class="nav-dot"></span></div>
-    </div>
-
-    <div class="intro">
-      <div class="hero">
-        <div class="hero-title">INTERACTIV</div>
-        <div class="hero-title">OLO DASH</div>
-        <div class="hero-internal">INTERNAL OLOPERATIONS INTERFACE</div>
-        
-        <div class="modules-section">
-          <div class="modules-title">ACTIVE MODULES:</div>
-          <span class="module-item">> GENSYN        <span class="status-online">[ONLINE]</span></span>
-          <span class="module-item">> MILVITA       <span class="status-standby">[STANDBY]</span></span>
-          <span class="module-item">> WEB / APP     <span class="status-locked">[LOCKED]</span></span>
-        </div>
-      </div>
-    </div>
-
-    <div id="logTicker" class="log-ticker">LOG: MODULE CHECKSUM OK</div>
-
-    <div class="cursor-hint">
-      UNAUTHORIZED ACCESS PROHIBITED
-    </div>
-  </div>
-
-  <div id="terminalScreen" class="terminal-overlay">
-    <div class="t-app">
-      <div class="t-topbar">
-        <div class="t-meta-info">
-          <div>GENSYN // OLO TERMINAL</div>
-          <div id="critFlag">CRITICAL ALERT</div>
-        </div>
-        <button class="backBtn" id="backToIntro">ESC // POWRÓT</button>
-      </div>
-      <div class="t-grid">
-        <section class="t-panel red">
-          <div class="ptitle">[ CENTRAL SYSTEM LOG ]</div>
-          <div class="log" id="centralLog"></div>
-        </section>
-        <section class="t-panel">
-          <div class="ptitle">[ MATRIX STATUS ]</div>
-          <div class="matrix-box" id="tMatrix"></div>
-        </section>
-        <section class="t-panel">
-          <div class="ptitle">[ OMEGA STREAM ]</div>
-          <div class="log" id="omegaLog"></div>
-        </section>
-        <section class="t-panel">
-          <div class="ptitle">[ RESOURCE MONITOR ]</div>
-          <div id="resClock">00:00:00.000</div>
-          <div id="netBars" class="net-bars"></div>
-        </section>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Grid
-    const gridHost = document.getElementById('matrixGrid');
-    if (gridHost) {
-      const cellsCount = window.innerWidth < 640 ? 200 : 400;
-      for (let i = 0; i < cellsCount; i++) gridHost.appendChild(document.createElement('div')).className = 'grid-cell';
-    }
-
-    // Cursor
-    const ring = document.getElementById('cursor-ring'), dot = document.getElementById('cursor-dot');
-    let mouse = { x: innerWidth / 2, y: innerHeight / 2 }, ringPos = { ...mouse }, dotPos = { ...mouse };
-    window.addEventListener('mousemove', e => { 
-      mouse.x = e.clientX; mouse.y = e.clientY; 
-      const px = document.getElementById('pos-x'), py = document.getElementById('pos-y');
-      if (px) px.textContent = String(Math.floor(mouse.x)).padStart(3,'0');
-      if (py) py.textContent = String(Math.floor(mouse.y)).padStart(3,'0');
-    });
-
-    function animate() {
-      if (window.innerWidth > 640) {
-        ringPos.x += (mouse.x - ringPos.x) * 0.15; ringPos.y += (mouse.y - ringPos.y) * 0.15;
-        ring.style.left = `${ringPos.x}px`; ring.style.top = `${ringPos.y}px`;
-        dotPos.x += (mouse.x - dotPos.x) * 0.3; dotPos.y += (mouse.y - dotPos.y) * 0.3;
-        dot.style.left = `${dotPos.x}px`; dot.style.top = `${dotPos.y}px`;
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    // Mode Transitions
-    const navGensyn = document.getElementById('navGensyn');
-    if (navGensyn) navGensyn.onclick = () => document.body.className = 'mode-terminal';
-    const backBtn = document.getElementById('backToIntro');
-    if (backBtn) backBtn.onclick = () => document.body.className = 'mode-intro';
-
-    // Matrix Logic
-    let glowIndices = new Set();
-    const isMobile = window.innerWidth < 640;
-    const MATRIX_SIZE = isMobile ? 120 : 320;
-    const matrixContainer = document.getElementById('tMatrix');
-    const matrixElements = [];
-
-    if (matrixContainer) {
-      for (let i = 0; i < MATRIX_SIZE; i++) {
-        const span = document.createElement('span');
-        span.className = 'matrix-char';
-        span.textContent = Math.random() > 0.5 ? '1' : '0';
-        matrixContainer.appendChild(span);
-        matrixElements.push(span);
-      }
-    }
-
-    function shuffleGlow() {
-      glowIndices.clear();
-      const count = Math.floor(MATRIX_SIZE * 0.25); 
-      for(let i=0; i<count; i++) glowIndices.add(Math.floor(Math.random() * MATRIX_SIZE));
-    }
-    setInterval(shuffleGlow, 2500);
-    shuffleGlow();
-
-    function updateMatrix() {
-      if (!matrixElements.length) return;
-      matrixElements.forEach((el, i) => {
-        if (Math.random() > 0.95) el.textContent = el.textContent === '1' ? '0' : '1';
-        if (glowIndices.has(i)) { 
-            if (!el.classList.contains('glow')) el.classList.add('glow'); 
-        } else { 
-            if (el.classList.contains('glow')) el.classList.remove('glow'); 
-        }
-      });
-    }
-    setInterval(updateMatrix, 100);
-
-    // Dynamic Logging
-    function addLog(elementId, message, type = 'info') {
-      const logBox = document.getElementById(elementId);
-      if (!logBox) return;
-      const timeStr = new Date().toLocaleTimeString('en-GB', { hour12: false });
-      const entry = document.createElement('div');
-      entry.className = `log-entry log-${type}`;
-      entry.innerHTML = `<span class="log-time">[${timeStr}]</span> <span>${message}</span>`;
-      logBox.appendChild(entry);
-      if (logBox.children.length > 60) logBox.removeChild(logBox.firstChild);
-      logBox.scrollTop = logBox.scrollHeight;
-    }
-
-    const centralMessages = [
-      { text: "KERNEL: SWAP SPACE OPTIMIZED" },
-      { text: "PROC: PROCESS [4921] TERMINATED" },
-      { text: "MEM: HEAP ALLOCATION AT 82%" },
-      { text: "AUTH: USER 'OLO' SESSION EXTENDED" },
-      { text: "SEC: VULNERABILITY SCAN COMPLETED" },
-      { text: "CRIT: BUFFER OVERFLOW AT 0x4A2F" },
-      { text: "SYS: CHRONOS SYNC SUCCESSFUL" },
-      { text: "IO: DISK WRITE LATENCY 0.4MS" },
-      { text: "WARN: COOLING FAN RPM BELOW THRESHOLD" },
-      { text: "ENV: TEMPERATURE STABLE AT 42C" },
-      { text: "ALERT: UNAUTHORIZED PORT ACCESS" }
-    ];
-
-    const omegaMessages = [
-      { text: "NET: PACKET [0xF3A] ROUTED VIA NODE-7" },
-      { text: "SYNC: BUFFER OVERFLOW PREVENTED" },
-      { text: "WIFI: SIGNAL DROPPED -12dBm" },
-      { text: "SSL: HANDSHAKE SUCCESSFUL (TLS 1.3)" },
-      { text: "UDP: 142 BYTES FROM 10.0.0.1" },
-      { text: "ROUTE: DNS RESOLVED OLO.OPS.LOCAL" },
-      { text: "FIREWALL: BLOCKED INBOUND ON PORT 22" },
-      { text: "API: GENSYN HEARTBEAT OK" },
-      { text: "NET: LATENCY SPIKE DETECTED (240ms)" },
-      { text: "CDN: CACHE REVALIDATION COMPLETE" }
-    ];
-
-    const logTypes = ['info', 'warn', 'crit', 'net'];
-
-    function scheduleLog(elementId, messages) {
-      setTimeout(() => {
-        const entry = messages[Math.floor(Math.random() * messages.length)];
-        const randomType = logTypes[Math.floor(Math.random() * logTypes.length)];
-        addLog(elementId, entry.text, randomType);
-        scheduleLog(elementId, messages);
-      }, 800 + Math.random() * 4500);
-    }
-
-    addLog('centralLog', "SYSTEM BOOT SEQUENCE INITIATED", 'info');
-    addLog('omegaLog', "NETWORK INTERFACE eth0 UP", 'net');
-    scheduleLog('centralLog', centralMessages);
-    scheduleLog('omegaLog', omegaMessages);
-
-    // Bars
-    const netBarsContainer = document.getElementById('netBars');
-    const barCount = 12;
-    const bars = [];
-    if (netBarsContainer) {
-      for (let i = 0; i < barCount; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'net-bar';
-        bar.style.height = '10px';
-        netBarsContainer.appendChild(bar);
-        bars.push(bar);
-      }
-    }
-    setInterval(() => bars.forEach(bar => bar.style.height = `${Math.floor(Math.random()*36)+4}px`), 1000);
-
-    // Clock
-    setInterval(() => {
-      const el = document.getElementById('resClock');
-      if (el) el.textContent = new Date().toLocaleTimeString() + "." + String(new Date().getMilliseconds()).padStart(3, '0');
-    }, 50);
-
-    // Ticker
-    const msgs = ["LOG: MODULE CHECKSUM OK", "LOG: NODE HANDSHAKE VERIFIED", "LOG: NETWORK STABLE", "LOG: ENCRYPTION ACTIVE", "LOG: GENSYN SYNC COMPLETE"];
-    let idx = 0;
-    setInterval(() => {
-      const t = document.getElementById('logTicker');
-      if (t) {
-        t.style.opacity = 0;
-        setTimeout(() => { idx = (idx+1)%msgs.length; t.textContent = msgs[idx]; t.style.opacity = 0.8; }, 500);
-      }
-    }, 4000);
-  </script>
+<body>
+  <div id="root"></div>
 <script type="module" src="/index.tsx"></script>
 </body>
 </html>
