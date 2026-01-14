@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto mt-14 pt-8 border-t border-white/5 flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between text-[10px] text-gray-600 uppercase tracking-widest font-bold">
-        <span>© 2026 OloSiTiRENT MOBILITY SYSTEMS.</span>
+        <span>© 2024 OloSiTiRENT MOBILITY SYSTEMS.</span>
         <span className="flex gap-4 justify-start md:justify-end text-orange flex-wrap">
           <span>Warszawa</span><span>Berlin</span><span>Londyn</span><span>Zielona Góra</span>
         </span>

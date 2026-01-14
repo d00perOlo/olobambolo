@@ -97,16 +97,7 @@ const Hero: React.FC = () => {
               </p>
             </div>
 
-            <div className="mt-4 ml-2 lg:ml-4 flex flex-col sm:flex-row gap-4 skew-x-[-12deg] relative z-40">
-               <button 
-                  onClick={handleIgnite}
-                  disabled={engineStarted || isDrivingOff || isReturning}
-                  className={`btn-ignite px-3 py-1.5 text-[9px] tracking-[0.15em] hover:scale-105 transition-all flex items-center gap-2 group shadow-[2px_2px_0px_rgba(0,0,0,0.5)] ${engineStarted ? 'opacity-50 grayscale' : ''}`}
-               >
-                  <span className="skew-x-[12deg] font-black italic">ODPAL SILNIK</span>
-                  <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-black border-b-[3px] border-b-transparent skew-x-[12deg] group-hover:translate-x-1 transition-transform duration-300"></div>
-               </button>
-            </div>
+            {/* Old Button Position - REMOVED */}
           </div>
 
           {/* VISUAL ENGINE - Aligned to bottom */}
@@ -114,8 +105,21 @@ const Hero: React.FC = () => {
             
             <div className="absolute right-[-20%] bottom-0 w-[120vw] h-[250px] bg-gradient-to-t from-orange/5 to-transparent blur-3xl mix-blend-screen"></div>
 
+            {/* NEW BUTTON POSITION - Next to the car */}
+            <div className="absolute bottom-16 left-0 lg:left-10 z-50 pointer-events-auto skew-x-[-12deg]">
+               <button 
+                  onClick={handleIgnite}
+                  disabled={engineStarted || isDrivingOff || isReturning}
+                  className={`btn-ignite px-6 py-3 text-sm tracking-[0.15em] hover:scale-105 transition-all flex items-center gap-3 group shadow-[0_0_20px_rgba(255,59,0,0.3)] ${engineStarted ? 'opacity-50 grayscale' : ''}`}
+               >
+                  <span className="skew-x-[12deg] font-black italic">ODPAL SILNIK</span>
+                  <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[8px] border-l-black border-b-[4px] border-b-transparent skew-x-[12deg] group-hover:translate-x-1 transition-transform duration-300"></div>
+               </button>
+            </div>
+
             {/* Container for the car with dynamic transition timings */}
-            <div className={`w-full lg:w-[110%] h-full flex items-end transition-all
+            {/* Reduced width from 110% to 88% (approx 20% reduction) to shrink car visually */}
+            <div className={`w-full lg:w-[88%] h-full flex items-end transition-all
               ${isDrivingOff 
                 ? 'translate-x-[150%] opacity-0 scale-105 duration-[800ms] ease-in' 
                 : isReturning 
