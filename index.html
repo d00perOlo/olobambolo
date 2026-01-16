@@ -1,186 +1,104 @@
 <!DOCTYPE html>
-<html lang="pl" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="OloSiTiRENT — nowoczesny wynajem aut: szybka rezerwacja, minimum formalności, maksymalna mobilność." />
-  <title>OloSiTiRENT | Adrenaline Mobility</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,800;1,400;1,700;1,900&display=swap" rel="stylesheet">
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            // BASE: Premium Depth (Graphite Scale)
-            void: '#050505',
-            graphite: {
-              900: '#0A0A0A', // Deep Section BG
-              800: '#121212', // Card Surface
-              700: '#1C1C1C', // Hover/Input
-              600: '#2A2A2A', // Border/Divider
-              DEFAULT: '#121212',
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>025Z3VV5KY :: PROJECT OPS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['JetBrains Mono', 'monospace'], // Force Mono everywhere
+              mono: ['JetBrains Mono', 'monospace'],
             },
-            // ACTION: Acceleration (Orange)
-            orange: {
-              DEFAULT: '#FF3B00', // Hyper Orange
-              glow: '#FF5500',
-            },
-            // TECH: Navigation (Cyan)
-            cyan: {
-              DEFAULT: '#00F0FF', 
-              dim: 'rgba(0, 240, 255, 0.3)',
-            },
-            // INFO: System Status (Cold Green) - 1-3% usage ONLY
-            techGreen: {
-              DEFAULT: '#00FF94', 
-              dim: 'rgba(0, 255, 148, 0.1)',
-            },
-            white: '#ffffff',
-          },
-          animation: {
-            'warp': 'warp 0.5s linear infinite',
-            'warp-slow': 'warp 2s linear infinite',
-            'slide-up': 'slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-            'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'ping-slow': 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
-          },
-          keyframes: {
-            warp: {
-              '0%': { transform: 'translateX(-100vw) skewX(-45deg)' },
-              '100%': { transform: 'translateX(100vw) skewX(-45deg)' },
-            },
-            slideUp: {
-              '0%': { transform: 'translateY(20px)', opacity: '0' },
-              '100%': { transform: 'translateY(0)', opacity: '1' },
+            colors: {
+              cyber: {
+                900: '#000000', // Main BG
+                800: '#050505', // Panel BG
+                700: '#1f1f1f', // Borders
+                600: '#333333', // Lighter borders
+                teal: '#c2fd12', // THE ACCENT (Neon Green)
+                red: '#ef4444', 
+                text: '#e6e6e6', // Main Text
+                muted: '#8a8a8a', // Muted Text
+              }
             }
           }
         }
       }
-    }
-  </script>
-  <style>
-    :root {
-      --orange: #FF3B00;
-      --cyan: #00F0FF;
-      --green: #00FF94;
-      --graphite-900: #0A0A0A;
-      --graphite-800: #121212;
-      --graphite-700: #1C1C1C;
-    }
-    
-    body {
-      background-color: #050505;
-      color: #fff;
-      overflow-x: hidden;
-    }
+    </script>
+    <style>
+      body {
+        background-color: #000000;
+        color: #e6e6e6;
+        font-family: 'JetBrains Mono', monospace;
+      }
+      
+      /* Global Grid Background from Olszewsky design */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+        background-size: 32px 32px;
+        pointer-events: none;
+        z-index: 0;
+      }
 
-    /* Graphite Texture */
-    .bg-carbon {
-        background-color: var(--graphite-800);
-        background-image: linear-gradient(45deg, #161616 25%, transparent 25%, transparent 75%, #161616 75%, #161616), 
-        linear-gradient(45deg, #161616 25%, transparent 25%, transparent 75%, #161616 75%, #161616);
-        background-size: 20px 20px;
-        background-position: 0 0, 10px 10px;
-    }
+      #root {
+        position: relative;
+        z-index: 1;
+        height: 100vh;
+      }
 
-    /* Speed Card - Graphite Surface */
-    .speed-card {
-      background: linear-gradient(135deg, var(--graphite-700) 0%, var(--graphite-800) 100%);
-      border: 1px solid #333;
-      position: relative;
-      transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      transform: skewX(-10deg);
-    }
-    
-    /* Unskew content */
-    .speed-card > * {
-      transform: skewX(10deg);
-    }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000; 
+        border-left: 1px solid #1f1f1f;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333; 
+        border-radius: 0;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #c2fd12; 
+      }
 
-    .speed-card:hover {
-      border-color: var(--orange);
-      box-shadow: -8px 8px 0px rgba(255, 59, 0, 0.15);
-      transform: skewX(-10deg) translate(-4px, -4px);
-    }
-    
-    .speed-card:hover .tech-line {
-        width: 100%;
-        background: var(--orange);
-    }
+      /* View Transitions */
+      @keyframes slideUpFade {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-    /* Primary Action Trigger (Orange) */
-    .btn-ignite {
-      background: var(--orange);
-      color: #000;
-      font-weight: 900;
-      text-transform: uppercase;
-      font-style: italic;
-      clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
-      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .btn-ignite::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-        transition: 0.4s;
-    }
-    
-    .btn-ignite:hover {
-      background: #fff;
-      padding-right: 2rem;
-      box-shadow: 0 0 30px rgba(255, 59, 0, 0.6);
-    }
-    
-    .btn-ignite:hover::after {
-        left: 100%;
-    }
-
-    /* Input Fields - Graphite Integration */
-    .input-speed {
-      background: var(--graphite-800);
-      border-bottom: 2px solid #333;
-      color: white;
-      font-style: italic;
-      font-weight: 700;
-      transition: all 0.3s;
-      border-radius: 0;
-    }
-    .input-speed:focus {
-      outline: none;
-      border-color: var(--orange);
-      background: var(--graphite-700);
-    }
-
-    /* Utilities */
-    .text-outline {
-      -webkit-text-stroke: 1px rgba(255,255,255,0.15);
-      color: transparent;
-    }
-    
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #050505; }
-    ::-webkit-scrollbar-thumb { background: #333; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
-  </style>
-<script type="importmap">
+      .view-enter {
+        animation: slideUpFade 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+      
+      /* Input resets for sharp edges */
+      input, button, select {
+        border-radius: 0 !important;
+      }
+    </style>
+  <script type="importmap">
 {
   "imports": {
+    "d3": "https://esm.sh/d3@^7.9.0",
+    "topojson-client": "https://esm.sh/topojson-client@^3.1.0",
     "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
@@ -189,8 +107,8 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-<body>
-  <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>

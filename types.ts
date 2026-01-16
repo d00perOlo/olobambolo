@@ -1,11 +1,35 @@
-export interface LenisInstance {
-  raf: (time: number) => void;
-  destroy: () => void;
-  on: (event: string, callback: (args: any) => void) => void;
+export interface ProjectStat {
+  id: string;
+  name: string;
+  status: 'active' | 'on-hold' | 'completed' | 'planning';
+  tasksCompleted: number;
+  totalTasks: number;
+  percentage: number;
 }
 
-declare global {
-  interface Window {
-    Lenis: new (options?: any) => LenisInstance;
-  }
+export interface MatrixItem {
+  id: string;
+  title: string;
+  priority: 'high' | 'medium' | 'low';
+  count: string; // e.g., "Subtasks: 2/5"
+  progress: number;
+}
+
+export interface MatrixColumn {
+  id: string;
+  title: string;
+  items: MatrixItem[];
+}
+
+export enum ViewMode {
+  DASHBOARD = 'DASHBOARD',
+  TASKS = 'TASKS',
+  IDEAS = 'IDEAS',
+  ARCHIVE = 'ARCHIVE'
+}
+
+export interface ChartDataPoint {
+  date: Date;
+  completed: number;
+  scope: number;
 }

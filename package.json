@@ -1,5 +1,5 @@
 {
-  "name": "copy-of-olositirent",
+  "name": "cyberintel-project-dashboard",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "d3": "^7.9.0",
+    "topojson-client": "^3.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
